@@ -1,0 +1,48 @@
+# Node modules
+trainer-app-backend/node_modules/
+trainer-app-frontend/node_modules/
+
+# Logs
+trainer-app-backend/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+trainer-app-backend/.env
+trainer-app-frontend/.env.local
+trainer-app-frontend/.env.development.local
+trainer-app-frontend/.env.test.local
+trainer-app-frontend/.env.production.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+
+# Build/Deployment directories
+trainer-app-backend/dist/
+trainer-app-frontend/build/
+trainer-app-backend/build/
+
+# Next.js
+trainer-app-frontend/.next/
+
+# Testing
+trainer-app-frontend/coverage/
+test
+
+# Misc
+/.pnp
+.pnp.js
+*.lock
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
