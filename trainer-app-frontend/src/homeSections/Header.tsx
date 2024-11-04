@@ -13,7 +13,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0">
+    <header className="sticky top-0 backdrop-blur-sm z-20">
       <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-3">
         <p className="text-white/60 hidden md:block ">
           Elevate your routine and maximize your performance
@@ -39,7 +39,7 @@ export const Header = () => {
               <a href="#">Help</a>
               <button
                 className="bg-black text-white px-4 py-2 
-              rounded-lg font-medium inline-flex align-items justify-center tracking-tight"
+              rounded-lg font-medium inline-flex items-center justify-center tracking-tight"
               >
                 Get for free
               </button>
@@ -55,9 +55,9 @@ export const Header = () => {
               <a href="#">Help</a>
               <button
                 className="bg-black text-white px-4 py-2 
-              rounded-lg font-medium inline-flex align-items justify-center tracking-tight"
+              rounded-lg font-medium inline-flex items-center justify-center tracking-tight"
               >
-                Get for free
+                Get Started
               </button>
             </nav>
           )}
