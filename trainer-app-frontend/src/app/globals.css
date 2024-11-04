@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply bg-black text-white px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4
+    rounded-lg font-medium md:font-bold lg:font-extrabold inline-flex items-center justify-center tracking-tight;
+  }
+
+  .btn-primary {
+    @apply bg-black text-white;
+  }
+
+  .btn-text {
+    @apply text-black bg-transparent;
+  }
+}
