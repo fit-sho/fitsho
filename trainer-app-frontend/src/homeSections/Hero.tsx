@@ -8,9 +8,7 @@ export const Hero = () => {
       <div className="container">
         <div className="md:flex items-center">
           <div className="md:w-[478px]">
-            <div className="text-sm md:text-base lg:text-lg inline-flex border border-[#222]/25 px-3 py-1 md:px-4 md:py-2 lg:px-5 lg:py-3 rounded-lg tracking-tight">
-              Test the Beta version now!
-            </div>
+            <div className="tag">Test the Beta version now!</div>
             <h1 className="text-5xl md:text-7xl font-bold md:font-extrabold tracking-tighter bg-gradient-to-t from-[#002121] to-[#001E80] text-transparent bg-clip-text mt-6">
               Fitsho Fitness App
             </h1>
@@ -32,7 +30,7 @@ export const Hero = () => {
             <Image
               src={dumbell}
               alt="Dumbell"
-              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-1 rotate-[-5deg]"
+              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-1 lg:left-36 rotate-[-5deg]"
             />
           </div>
         </div>
