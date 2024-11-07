@@ -15,4 +15,8 @@
   .btn-text {
     @apply text-black bg-transparent;
   }
+
+  .tag {
+    @apply text-sm md:text-base lg:text-lg inline-flex border border-[#222]/25 px-3 py-1 md:px-4 md:py-2 lg:px-5 lg:py-3 rounded-lg tracking-tight;
+  }
 }
