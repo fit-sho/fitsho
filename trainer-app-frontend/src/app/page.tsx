@@ -4,6 +4,7 @@ import { TextTicker } from "@/homeSections/TextTicker";
 import { ProductShowcase } from "@/homeSections/ProductShowcase";
 import { Pricing } from "@/homeSections/Pricing";
 import { CallToAction } from "@/homeSections/CallToAction";
+import { Footer } from "@/homeSections/Footer";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <ProductShowcase />
       <Pricing />
       <CallToAction />
+      <Footer />
     </>
   );
 }
