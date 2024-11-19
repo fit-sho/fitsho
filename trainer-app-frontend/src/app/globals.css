@@ -32,4 +32,8 @@
   .section-heading {
     @apply max-w-[540px] mx-auto;
   }
+
+  .textTicker-words {
+    @apply text-2xl font-extrabold text-gray-600 tracking-wide px-8;
+  }
 }
