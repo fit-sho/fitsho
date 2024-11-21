@@ -19,14 +19,18 @@ export const Header = () => {
           Elevate your routine and maximize your performance
         </p>
         <div className="inline-flex gap-1 items-center">
-          <p>Get Started For Free</p>
-          <ArrowRight className="h-5 w-5 inline-flex justify-center items-center" />
+          <a href="#" className="hover:text-white/60">
+            Get Started For Free
+            <ArrowRight className="h-5 w-5 inline-flex justify-center items-center" />
+          </a>
         </div>
       </div>
       <div className="py-5">
         <div className="container">
           <div className="flex items-center justify-between">
-            <Image src={Logo} alt="Fitsho Logo" height={40} width={40} />
+            <a href="#">
+              <Image src={Logo} alt="Fitsho Logo" height={40} width={40} />
+            </a>
             <MenuIconDark
               className="h-5 w-5 md:hidden cursor-pointer"
               onClick={toggleMenu}
