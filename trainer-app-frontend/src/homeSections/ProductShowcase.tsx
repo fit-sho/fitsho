@@ -1,12 +1,24 @@
+"use client";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import productImage from "@/assets/images/product-image.png";
 import pyramidImage from "@/assets/images/pyramid.png";
-import starImage from "@/assets/images/star.png";
 import tubeImage from "@/assets/images/tube.png";
+import { useRef } from "react";
 
 export const ProductShowcase = () => {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
+
   return (
-    <section className="bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF] py-24 overflow-x-clip">
+    <section
+      ref={sectionRef}
+      className="bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF] py-24 overflow-x-clip"
+    >
       <div className="container">
         <div className="section-heading">
           <div className="flex justify-center">
@@ -23,19 +35,21 @@ export const ProductShowcase = () => {
         </div>
         <div className="relative">
           <Image src={productImage} alt="Product Showcase" className="mt-10" />
-          <Image
-            src={pyramidImage}
+          <motion.img
+            src={pyramidImage.src}
             alt="Pyramid Image"
             className="hidden md:block absolute -right-36 -top-32 "
             height={262}
             width={262}
+            style={{ translateY }}
           />
-          <Image
-            src={tubeImage}
+          <motion.img
+            src={tubeImage.src}
             alt="Tube Image"
             className="hidden md:block absolute bottom-24 -left-36"
             height={248}
             width={248}
+            style={{ translateY }}
           />
         </div>
       </div>
