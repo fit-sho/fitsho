@@ -1,3 +1,5 @@
+"use client";
+import { motion } from "framer-motion";
 import CheckIcon from "@/assets/icons/check.svg";
 import { twMerge } from "tailwind-merge";
 
@@ -39,7 +41,7 @@ const pricingTiers = [
     popular: false,
     inverse: false,
     features: [
-      "Up to 5 project members",
+      "Up to 500 project members",
       "Unlimited tasks and projects",
       "200GB storage",
       "Integrations",
@@ -73,7 +75,7 @@ export const Pricing = () => {
               <div
                 key={index}
                 className={twMerge(
-                  "p-10 border border-[#F1F1F1] rounded-3xl shadow-[0_7px_14px_#EAEAEA] max-w-xs w-full",
+                  "p-10 border border-[#F1F1F1] bg-gray-50 rounded-3xl shadow-[0_7px_14px_#EAEAEA] max-w-xs w-full",
                   inverse === true && "border-black bg-black text-white "
                 )}
               >
@@ -88,9 +90,20 @@ export const Pricing = () => {
                   </h3>
                   {popular === true && (
                     <div className="inline-flex text-sm px-4 py-1.5 rounded-xl border border-white/20">
-                      <span className="bg-[linear-gradient(to_right,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF,#DD7DDF)] text-transparent bg-clip-text font-medium">
+                      <motion.span
+                        animate={{
+                          backgroundPositionX: "-100%",
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2,
+                          repeatType: "loop",
+                          ease: "linear",
+                        }}
+                        className="bg-[linear-gradient(to_right,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF)] [background-size:200%] text-transparent bg-clip-text font-medium"
+                      >
                         Popular
-                      </span>
+                      </motion.span>
                     </div>
                   )}
                 </div>
