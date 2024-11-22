@@ -35,9 +35,13 @@ export const Hero = () => {
             <motion.img
               src={dumbell.src}
               alt="Dumbell"
-              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-1 lg:left-36 rotate-[-5deg]"
+              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-1 lg:left-36 rotate-[-5deg] "
               animate={{
                 translateY: [-30, 30],
+                rotate: 0,
+              }}
+              whileHover={{
+                rotate: 20,
               }}
               transition={{
                 repeat: Infinity,
