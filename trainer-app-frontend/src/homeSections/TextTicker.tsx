@@ -24,6 +24,9 @@ export const TextTicker = () => {
               ease: "linear",
               repeatType: "loop",
             }}
+            whileHover={{
+              translateX: 0,
+            }}
           >
             <p className="textTicker-words">Responsive</p>
             <CodeIcon className="fill-gray-600  size-8" />
