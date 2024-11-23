@@ -14,10 +14,8 @@ export const Hero = () => {
                 Test the Beta version now!
               </a>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold md:font-extrabold tracking-tighter bg-gradient-to-t from-[#002121] to-[#001E80] text-transparent bg-clip-text mt-6">
-              Fitsho Fitness App
-            </h1>
-            <p className="text-xl text-[#010D3E] md:text-2xl lg:text-3xl tracking-tight mt-6">
+            <h1 className="h1tags mt-6">Fitsho Fitness App</h1>
+            <p className="ptags mt-6">
               Discover personalized workouts, nutrition tips, and daily
               motivation to reach your fitness goals. Fitsho is your companion
               in achieving a healthier, stronger, and more confident version of
