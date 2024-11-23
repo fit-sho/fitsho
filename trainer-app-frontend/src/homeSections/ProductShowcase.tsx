@@ -22,7 +22,11 @@ export const ProductShowcase = () => {
       <div className="container">
         <div className="section-heading">
           <div className="flex justify-center">
-            <div className="tag">Boost your Productivty</div>
+            <div className="tag">
+              <a href="#" className="hover:text-gray-600">
+                Boost your Productivty
+              </a>
+            </div>
           </div>
           <h2 className="section-title mt-5">
             A more effective way to track progress
