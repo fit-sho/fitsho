@@ -28,7 +28,7 @@ export const Header = () => {
       <div className="py-5">
         <div className="container">
           <div className="flex items-center justify-between">
-            <a href="#">
+            <a href="/#">
               <Image src={Logo} alt="Fitsho Logo" height={40} width={40} />
             </a>
             <MenuIconDark
