@@ -36,7 +36,7 @@ export const Header = () => {
               onClick={toggleMenu}
             />
             <nav className="hidden md:flex gap-6 text-black/60 items-center">
-              <a href="#">About</a>
+              <a href="/about">About</a>
               <a href="#">Features</a>
               <a href="#">Updates</a>
               <a href="#">Plans</a>
@@ -52,7 +52,7 @@ export const Header = () => {
           {/* Mobile menu */}
           {isMenuOpen && (
             <nav className="md:hidden mt-3 flex flex-col gap-4 text-black/60 items-center">
-              <a href="#">About</a>
+              <a href="/about">About</a>
               <a href="#">Features</a>
               <a href="#">Updates</a>
               <a href="#">Plans</a>
