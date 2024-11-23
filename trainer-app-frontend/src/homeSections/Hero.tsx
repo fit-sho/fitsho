@@ -24,11 +24,15 @@ export const Hero = () => {
               yourself.
             </p>
             <div className="flex gap-4 items-center mt-[30px]">
-              <button className="btn btn-primary ">Get Started</button>
-              <button className="btn btn-text gap-1 border border-[#222]/10">
-                <span>Learn More</span>
-                <ArrowRight className="h-5 w-5 fill-black" />
-              </button>
+              <a href="/#">
+                <button className="btn btn-primary ">Get Started</button>
+              </a>
+              <a href="/about">
+                <button className="btn btn-text gap-1 border border-[#222]/10">
+                  <span>Learn More</span>
+                  <ArrowRight className="h-5 w-5 fill-black" />
+                </button>
+              </a>
             </div>
           </div>
           <div className="mt-20 md:mt-0 md:h-[300px] lg:h-[478px] md:flex-1 relative">
