@@ -4,6 +4,8 @@ import StarImage from "@/assets/images/star.png";
 import SpringImage from "@/assets/images/spring.png";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { SectionTitle } from "@/components/SectionTitle";
+import { SectionDesc } from "@/components/SectionDesc";
 
 export const CallToAction = () => {
   const sectionRef = useRef(null);
@@ -22,11 +24,15 @@ export const CallToAction = () => {
     >
       <div className="container">
         <div className="section-heading relative">
-          <h2 className="section-title">Sign up for free today</h2>
-          <p className="section-description mt-5">
-            Celebrate the joy of accomplishment with an app designed to track
-            your fitness progress and motivate your efforts.
-          </p>
+          <SectionTitle
+            title="Sign up for free today"
+            className="text-center mt-5"
+          />
+          <SectionDesc
+            description="Celebrate the joy of accomplishment with an app designed to track
+            your fitness progress and motivate your efforts."
+            className="text-center mt-5"
+          />
           <motion.img
             src={StarImage.src}
             alt="Star Image"

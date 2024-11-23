@@ -5,6 +5,8 @@ import productImage from "@/assets/images/product-image.png";
 import pyramidImage from "@/assets/images/pyramid.png";
 import tubeImage from "@/assets/images/tube.png";
 import { useRef } from "react";
+import { SectionTitle } from "@/components/SectionTitle";
+import { SectionDesc } from "@/components/SectionDesc";
 
 export const ProductShowcase = () => {
   const sectionRef = useRef(null);
@@ -28,14 +30,16 @@ export const ProductShowcase = () => {
               </a>
             </div>
           </div>
-          <h2 className="section-title mt-5">
-            A more effective way to track progress
-          </h2>
-          <p className="section-description mt-5">
-            Effortlessly track your progress and stay motivated with our fully
+          <SectionTitle
+            title="A more effective way to track progress"
+            className="text-center mt-6"
+          />
+          <SectionDesc
+            description="Effortlessly track your progress and stay motivated with our fully
             functional, responsive and user-friendly fitness app. Fitsho is your
-            companion in achieving a healthier, stronger life.
-          </p>
+            companion in achieving a healthier, stronger life."
+            className="text-center mt-6"
+          />
         </div>
         <div className="relative">
           <Image src={productImage} alt="Product Showcase" className="mt-10" />

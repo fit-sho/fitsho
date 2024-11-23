@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import CheckIcon from "@/assets/icons/check.svg";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
+import { SectionTitle } from "@/components/SectionTitle";
+import { SectionDesc } from "@/components/SectionDesc";
 
 const pricingTiers = [
   {
@@ -64,11 +66,12 @@ export const Pricing = () => {
     <section className="py-24">
       <div className="container">
         <div className="section-heading">
-          <h2 className="section-title">Pricing</h2>
-          <p className="section-description mt-5">
-            Free forever. Upgrade for unlimited plans, better secuirty and
-            exclusive features.
-          </p>
+          <SectionTitle title="Pricing" className="text-center mt-5" />
+          <SectionDesc
+            description="Free forever. Upgrade for unlimited plans, better secuirty and
+            exclusive features."
+            className="text-center mt-3"
+          />
         </div>
         <div className="flex flex-col gap-6 items-center mt-10 lg:flex-row lg:items-end lg:justify-center">
           {pricingTiers.map(
@@ -150,10 +153,6 @@ export const Pricing = () => {
               </div>
             )
           )}
-
-          <div>
-            <h3></h3>
-          </div>
         </div>
       </div>
     </section>

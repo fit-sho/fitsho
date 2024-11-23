@@ -2,6 +2,8 @@
 import dumbell from "@/assets/images/dumbbell_no_background.png";
 import ArrowRight from "@/assets/icons/ArrowRight.svg";
 import { motion } from "framer-motion";
+import { SectionTitle } from "@/components/SectionTitle";
+import { SectionDesc } from "@/components/SectionDesc";
 
 export const Hero = () => {
   return (
@@ -14,13 +16,14 @@ export const Hero = () => {
                 Test the Beta version now!
               </a>
             </div>
-            <h1 className="h1tags mt-6">Fitsho Fitness App</h1>
-            <p className="ptags mt-6">
-              Discover personalized workouts, nutrition tips, and daily
+            <SectionTitle title="Fitsho Fitness App" className="mt-6" />
+            <SectionDesc
+              description="Discover personalized workouts, nutrition tips, and daily
               motivation to reach your fitness goals. Fitsho is your companion
               in achieving a healthier, stronger, and more confident version of
-              yourself.
-            </p>
+              yourself."
+              className="mt-6"
+            />
             <div className="flex gap-4 items-center mt-[30px]">
               <a href="/#">
                 <button className="btn btn-primary ">Get Started</button>
