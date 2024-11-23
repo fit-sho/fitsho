@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import CheckIcon from "@/assets/icons/check.svg";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 const pricingTiers = [
   {
@@ -10,6 +11,7 @@ const pricingTiers = [
     buttonText: "Get started for free",
     popular: false,
     inverse: false,
+    href: "#",
     features: [
       "Up to 5 project members",
       "Unlimited tasks and projects",
@@ -23,6 +25,7 @@ const pricingTiers = [
     monthlyPrice: 9,
     buttonText: "Sign up now",
     popular: true,
+    href: "#",
     inverse: true,
     features: [
       "Up to 50 project members",
@@ -39,6 +42,7 @@ const pricingTiers = [
     monthlyPrice: 19,
     buttonText: "Sign up now",
     popular: false,
+    href: "#",
     inverse: false,
     features: [
       "Up to 500 project members",
@@ -69,7 +73,15 @@ export const Pricing = () => {
         <div className="flex flex-col gap-6 items-center mt-10 lg:flex-row lg:items-end lg:justify-center">
           {pricingTiers.map(
             (
-              { title, monthlyPrice, buttonText, popular, inverse, features },
+              {
+                title,
+                monthlyPrice,
+                buttonText,
+                popular,
+                inverse,
+                features,
+                href,
+              },
               index
             ) => (
               <div
@@ -115,14 +127,15 @@ export const Pricing = () => {
                     /month
                   </span>
                 </div>
-                <button
+                <Link
+                  href={href}
                   className={twMerge(
-                    "btn btn-primary w-full mt-[30px]",
+                    "btn btn-primary w-full mt-[30px] flex justify-center items-center",
                     inverse === true && "bg-white text-black"
                   )}
                 >
                   {buttonText}
-                </button>
+                </Link>
                 <ul className="flex flex-col gap-5 mt-8">
                   {features.map((feature, featureIndex) => (
                     <li
