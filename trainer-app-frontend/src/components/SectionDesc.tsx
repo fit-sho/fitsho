@@ -4,9 +4,11 @@ export const SectionDesc = ({
   description,
   className,
 }: {
-  description: string;
+  description?: string | JSX.Element;
   className?: string;
 }) => {
+  if (!description) return null;
+
   return (
     <p
       className={twMerge(
