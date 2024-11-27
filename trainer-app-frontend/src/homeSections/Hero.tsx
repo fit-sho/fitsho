@@ -1,5 +1,5 @@
 "use client";
-import dumbell from "@/assets/images/dumbbell_no_background.png";
+import dumbell from "@/assets/images/homeImages/dumbbell_no_background.png";
 import ArrowRight from "@/assets/icons/ArrowRight.svg";
 import { motion } from "framer-motion";
 import { SectionTitle } from "@/components/SectionTitle";

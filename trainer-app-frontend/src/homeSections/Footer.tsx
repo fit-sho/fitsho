@@ -1,8 +1,8 @@
 import logo from "@/assets/images/logo-fitsho.png";
 import Image from "next/image";
-import SocialInsta from "@/assets/icons/social-insta.svg";
-import SocialLinkedin from "@/assets/icons/social-linkedin.svg";
-import SocialYoutube from "@/assets/icons/social-youtube.svg";
+import SocialInsta from "@/assets/icons/socialIcons/social-insta.svg";
+import SocialLinkedin from "@/assets/icons/socialIcons/social-linkedin.svg";
+import SocialYoutube from "@/assets/icons/socialIcons/social-youtube.svg";
 
 export const Footer = () => {
   return (

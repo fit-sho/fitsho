@@ -1,9 +1,9 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import productImage from "@/assets/images/product-image.png";
-import pyramidImage from "@/assets/images/pyramid.png";
-import tubeImage from "@/assets/images/tube.png";
+import productImage from "@/assets/images/homeImages/product-image.png";
+import pyramidImage from "@/assets/images/homeImages/pyramid.png";
+import tubeImage from "@/assets/images/homeImages/tube.png";
 import { useRef } from "react";
 import { SectionTitle } from "@/components/SectionTitle";
 import { SectionDesc } from "@/components/SectionDesc";

@@ -1,7 +1,7 @@
 "use client";
 import ArrowRight from "@/assets/icons/ArrowRight.svg";
-import StarImage from "@/assets/images/star.png";
-import SpringImage from "@/assets/images/spring.png";
+import StarImage from "@/assets/images/homeImages/star.png";
+import SpringImage from "@/assets/images/homeImages/spring.png";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionTitle } from "@/components/SectionTitle";
