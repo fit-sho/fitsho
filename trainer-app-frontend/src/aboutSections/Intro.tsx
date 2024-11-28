@@ -1,4 +1,6 @@
 import { GenericSection } from "./components/GenericSection";
+import introimg from "@/assets/images/aboutImages/img.jpg";
+import Image from "next/image";
 
 export const Intro = () => {
   return (
@@ -27,6 +29,23 @@ export const Intro = () => {
         </p>
       }
       bgGradient="bg-[radial-gradient(ellipse_250%_100%_at_bottom_right,#183EC2,#EAEEFE_45%)]"
+      // image={
+      //   <div
+      //     className="flex flex-col md:flex-row
+      //    items-start md:items-start mt-5"
+      //   >
+      //     <div className="w-full flex justify-center md:justify-end md:ml-[250px]">
+      //       <Image
+      //         src={introimg}
+      //         alt="Introduction to FitSho"
+      //         className="rounded-lg shadow-lg mt-10"
+      //         width={550}
+      //         height={300}
+      //       />
+      //     </div>
+      //   </div>
+      // }
+      reverse
     />
   );
 };
