@@ -41,12 +41,14 @@ export const Header = () => {
               <a href="#">Updates</a>
               <a href="#">Plans</a>
               <a href="#">Help</a>
-              <button
-                className="bg-black text-white px-4 py-2 
+              <a href="/login">
+                <button
+                  className="bg-black text-white px-4 py-2 
               rounded-lg font-medium inline-flex items-center justify-center tracking-tight"
-              >
-                Get for free
-              </button>
+                >
+                  Get for free
+                </button>
+              </a>
             </nav>
           </div>
           {/* Mobile menu */}
