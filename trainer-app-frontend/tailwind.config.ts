@@ -7,6 +7,7 @@ const config: Config = {
     "./src/homeSections/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/aboutSections/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/loginSections/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     screens: {
