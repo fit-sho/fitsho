@@ -45,9 +45,6 @@ export const Hero = () => {
                 translateY: [-30, 30],
                 rotate: 0,
               }}
-              whileHover={{
-                rotate: 20,
-              }}
               transition={{
                 repeat: Infinity,
                 duration: 3,
