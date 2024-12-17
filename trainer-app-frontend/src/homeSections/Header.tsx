@@ -14,12 +14,12 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 backdrop-blur-sm z-20">
-      <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-3">
+      <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-10">
         <p className="text-white/60 hidden md:block ">
           Elevate your routine and maximize your performance
         </p>
         <div className="inline-flex gap-1 items-center">
-          <a href="#" className="hover:text-white/60">
+          <a href="/login" className="hover:text-white/60">
             Get Started For Free
             <ArrowRight className="h-5 w-5 inline-flex justify-center items-center" />
           </a>
@@ -28,7 +28,7 @@ export const Header = () => {
       <div className="py-5">
         <div className="container">
           <div className="flex items-center justify-between">
-            <a href="/#">
+            <a href="/#" className="hover:scale-125">
               <Image src={Logo} alt="Fitsho Logo" height={40} width={40} />
             </a>
             <MenuIconDark
@@ -36,15 +36,25 @@ export const Header = () => {
               onClick={toggleMenu}
             />
             <nav className="hidden md:flex gap-6 text-black/60 items-center">
-              <a href="/about">About</a>
-              <a href="#">Features</a>
-              <a href="#">Updates</a>
-              <a href="#">Plans</a>
-              <a href="#">Help</a>
-              <a href="/login">
+              <a href="/about" className="hover-nav">
+                About
+              </a>
+              <a href="#" className="hover-nav">
+                Features
+              </a>
+              <a href="#" className="hover-nav">
+                Updates
+              </a>
+              <a href="#" className="hover-nav">
+                Plans
+              </a>
+              <a href="#" className="hover-nav">
+                Help
+              </a>
+              <a href="/login" className="">
                 <button
                   className="bg-black text-white px-4 py-2 
-              rounded-lg font-medium inline-flex items-center justify-center tracking-tight"
+              rounded-lg font-medium inline-flex items-center justify-center tracking-tight btn-hover"
                 >
                   Get for free
                 </button>
