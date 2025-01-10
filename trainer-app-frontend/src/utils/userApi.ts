@@ -20,11 +20,18 @@ export const loginUser = async (email: string, password: string) => {
 };
 
 // Create User
-export const registerUser = async (email: string, password: string) => {
+export const registerUser = async (
+  name: string,
+  email: string,
+  password: string,
+  age?: number //optional
+) => {
   try {
-    const response = await axiosInstance.post("/users/register", {
+    const response = await axiosInstance.post("/users", {
+      name,
       email,
       password,
+      age,
     });
     return response.data; // { user, token }
   } catch (error: any) {
