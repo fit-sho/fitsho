@@ -31,7 +31,7 @@ export const LoginForm = () => {
         {/* Login Form Box */}
         <div
           className="rounded-2xl shadow-2xl p-8 md:w-[80%] md:max-w-5xl grid grid-cols-1 md:grid-cols-2 overflow-hidden 
-        bg-[radial-gradient(ellipse_250%_100%_at_bottom_right,#183EC2,#EAEEFE_25%)]"
+        z-index-10"
         >
           {/* Left Side */}
           <div className="">
@@ -41,7 +41,7 @@ export const LoginForm = () => {
           {/* Right Side */}
           <div className="hidden md:block">
             <h1 className="section-description">Login using google</h1>
-            <button className="btn btn-primary w-full mt-6">
+            <button className="btn btn-google w-full mt-6">
               Login with Google Account
             </button>
           </div>
