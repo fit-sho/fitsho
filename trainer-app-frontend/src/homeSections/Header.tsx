@@ -14,11 +14,11 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 backdrop-blur-sm z-20">
-      <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-10">
+      <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-3">
         <p className="text-white/60 hidden md:block ">
           Elevate your routine and maximize your performance
         </p>
-        <div className="inline-flex gap-1 items-center">
+        <div className="inline-flex gap-1 items-center mt-[2px]">
           <a href="/login" className="hover:text-white/60">
             Get Started For Free
             <ArrowRight className="h-5 w-5 inline-flex justify-center items-center" />
