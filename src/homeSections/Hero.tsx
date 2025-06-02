@@ -11,11 +11,11 @@ export const Hero = () => {
       <div className="container">
         <div className="md:flex items-center">
           <div className="md:w-[478px]">
-            <div className="tag">
+            <a className="tag hover:text-gray-600" href="/login ">
               <a href="#" className="hover:text-gray-600">
-                Test the Beta version now!
+                Test the Beta version now! 👋
               </a>
-            </div>
+            </a>
             <SectionTitle title="Fitsho Fitness App" className="mt-6" />
             <SectionDesc
               description="Discover personalized workouts, nutrition tips, and daily
@@ -24,12 +24,12 @@ export const Hero = () => {
               yourself."
               className="mt-6"
             />
-            <div className="flex gap-4 items-center mt-[30px]">
+            <div className="flex gap-12 items-center mt-[30px]">
               <a href="/#">
                 <button className="btn btn-primary ">Get Started</button>
               </a>
               <a href="/about">
-                <button className="btn btn-text gap-1 border border-[#222]/10">
+                <button className="btn btn-text gap-1 border border-[#222]/25">
                   <span>Learn More</span>
                   <ArrowRight className="h-5 w-5 fill-black" />
                 </button>

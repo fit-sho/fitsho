@@ -25,10 +25,7 @@
   }
 
   .btn-primary {
-    @apply bg-black text-white;
-  }
-  .btn-google {
-    @apply bg-[#4285F4] text-white;
+    @apply bg-indigo-500 text-white;
   }
 
   .btn-text {

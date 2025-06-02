@@ -14,14 +14,14 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 backdrop-blur-sm z-20">
-      <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-3">
-        <p className="text-white/60 hidden md:block ">
+      <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-5">
+        <p className="text-neutral-100 hidden md:block ">
           Elevate your routine and maximize your performance
         </p>
-        <div className="inline-flex gap-1 items-center mt-[2px]">
-          <a href="/login" className="hover:text-white/60">
+        <div className="inline-flex gap-1 items-center mt-[2px] ">
+          <a href="/login" className="hover:text-white/60 underline group">
             Get Started For Free
-            <ArrowRight className="h-5 w-5 inline-flex justify-center items-center" />
+            <ArrowRight className="h-5 w-5 inline-flex justify-center items-center ml-0.5 fill-current group-hover:text-white/60" />
           </a>
         </div>
       </div>
@@ -35,10 +35,7 @@ export const Header = () => {
               className="h-5 w-5 md:hidden cursor-pointer"
               onClick={toggleMenu}
             />
-            <nav className="hidden md:flex gap-6 text-black/60 items-center">
-              <a href="/about" className="hover-nav">
-                About
-              </a>
+            <nav className="hidden md:flex gap-5 lg:gap-12 text-black/60 items-center">
               <a href="#" className="hover-nav">
                 Features
               </a>
@@ -46,18 +43,19 @@ export const Header = () => {
                 Updates
               </a>
               <a href="#" className="hover-nav">
-                Plans
+                Learning Center
               </a>
               <a href="#" className="hover-nav">
-                Help
+                Pricing
               </a>
-              <a href="/login" className="">
-                <button
-                  className="bg-black text-white px-4 py-2 
-              rounded-lg font-medium inline-flex items-center justify-center tracking-tight btn-hover"
-                >
-                  Get for free
-                </button>
+
+              <a
+                className="bg-indigo-500 text-white px-10 py-3 
+              rounded-lg font-bold inline-flex items-center justify-center tracking-tight btn-hover group"
+                href="/login"
+              >
+                Get Started
+                <ArrowRight className="h-7 w-6 inline-flex justify-center items-center ml-2 fill-current group-hover:text-white/60" />
               </a>
             </nav>
           </div>
@@ -69,12 +67,14 @@ export const Header = () => {
               <a href="#">Updates</a>
               <a href="#">Plans</a>
               <a href="#">Help</a>
-              <button
-                className="bg-black text-white px-4 py-2 
-              rounded-lg font-medium inline-flex items-center justify-center tracking-tight"
+              <a
+                className="bg-indigo-500 text-white px-10 py-3 
+              rounded-lg font-bold inline-flex items-center justify-center tracking-tight btn-hover group"
+                href="/login"
               >
                 Get Started
-              </button>
+                <ArrowRight className="h-7 w-6 inline-flex justify-center items-center ml-2 fill-current group-hover:text-white/60" />
+              </a>
             </nav>
           )}
         </div>

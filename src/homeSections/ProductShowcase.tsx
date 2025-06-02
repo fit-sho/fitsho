@@ -24,11 +24,9 @@ export const ProductShowcase = () => {
       <div className="container">
         <div className="section-heading">
           <div className="flex justify-center">
-            <div className="tag">
-              <a href="#" className="hover:text-gray-600">
-                Boost your Productivty
-              </a>
-            </div>
+            <a className="tag px-12 hover:text-gray-600" href="#">
+              Boost Your Productivty ✅
+            </a>
           </div>
           <SectionTitle
             title="A more effective way to track progress"

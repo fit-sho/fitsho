@@ -37,7 +37,7 @@ export const Footer = () => {
             <SocialYoutube />
           </a>
         </div>
-        <p className="mt-6">&copy; 2024 FitSho, Inc. All rights reserved.</p>
+        <p className="mt-6">&copy; 2025 FitSho, Inc. All rights reserved.</p>
       </div>
     </footer>
   );
