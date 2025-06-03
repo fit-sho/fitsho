@@ -20,7 +20,10 @@ export default function SignUpPage() {
     setSuccessMsg(null);
     setLoading(true);
 
-    const { data: { user }, error: authError } = await supabase.auth.signUp({
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -36,7 +39,7 @@ export default function SignUpPage() {
         {
           id: user.id,
           email: email,
-          password: password,
+
           first_name: firstName,
           last_name: lastName,
           role,
