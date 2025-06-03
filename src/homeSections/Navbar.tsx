@@ -1,30 +1,35 @@
 "use client";
 import { useState } from "react";
 import ArrowRight from "@/assets/icons/ArrowRight.svg";
+import { usePathname } from "next/navigation";
 import Logo from "@/assets/images/logo-fitsho.png";
 import Image from "next/image";
 import MenuIconDark from "@/assets/icons/MenuIconDark.svg";
+import LogoutButton from "@/components/LogoutButton";
 
-export const Header = () => {
+export const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const pathname = usePathname();
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
     <header className="sticky top-0 backdrop-blur-sm z-20">
-      <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-5">
-        <p className="text-neutral-100 hidden md:block ">
-          Elevate your routine and maximize your performance
-        </p>
-        <div className="inline-flex gap-1 items-center mt-[2px] ">
-          <a href="/login" className="hover:text-white/60 underline group">
-            Get Started For Free
-            <ArrowRight className="h-5 w-5 inline-flex justify-center items-center ml-0.5 fill-current group-hover:text-white/60" />
-          </a>
+      {pathname === "/" && (
+        <div className="flex justify-center items-center bg-black text-sm text-white py-3 gap-5">
+          <p className="text-neutral-100 hidden md:block ">
+            Elevate your routine and maximize your performance
+          </p>
+          <div className="inline-flex gap-1 items-center mt-[2px] ">
+            <a href="/login" className="hover:text-white/60 underline group">
+              Get Started For Free
+              <ArrowRight className="h-5 w-5 inline-flex justify-center items-center ml-0.5 fill-current group-hover:text-white/60" />
+            </a>
+          </div>
         </div>
-      </div>
+      )}
+
       <div className="py-5">
         <div className="container">
           <div className="flex items-center justify-between">
@@ -48,13 +53,14 @@ export const Header = () => {
               <a href="#" className="hover-nav">
                 Pricing
               </a>
+              <LogoutButton />
 
               <a
                 className="bg-indigo-500 text-white px-10 py-3 
               rounded-lg font-bold inline-flex items-center justify-center tracking-tight btn-hover group"
                 href="/login"
               >
-                Get Started
+                Login
                 <ArrowRight className="h-7 w-6 inline-flex justify-center items-center ml-2 fill-current group-hover:text-white/60" />
               </a>
             </nav>
