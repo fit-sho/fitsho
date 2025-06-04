@@ -4,7 +4,7 @@ import "./globals.css";
 import { twMerge } from "tailwind-merge";
 
 // importing header and footer
-import { Header } from "@/homeSections/Header";
+import { Navbar } from "@/homeSections/Navbar";
 import { Footer } from "@/homeSections/Footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -33,7 +33,7 @@ export default function RootLayout({
           "bg-[#EAEEFE] antialiased font-sans"
         )}
       >
-        <Header /> {/* Adds the navbar */}
+        <Navbar /> {/* Adds the navbar */}
         <main> {children} </main>
         <Footer /> {/* Adds the footer */}
       </body>
