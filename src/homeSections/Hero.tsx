@@ -11,10 +11,10 @@ export const Hero = () => {
       <div className="container">
         <div className="md:flex items-center">
           <div className="md:w-[478px]">
-            <a className="tag hover:text-gray-600" href="/login ">
-              <a href="#" className="hover:text-gray-600">
+            <a className="tag hover:text-gray-600" href="/login">
+              <span className="hover:text-gray-600">
                 Test the Beta version now! 👋
-              </a>
+              </span>
             </a>
             <SectionTitle title="Fitsho Fitness App" className="mt-6" />
             <SectionDesc

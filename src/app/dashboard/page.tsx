@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase";
-import Image from "next/image";
 import Link from "next/link";
 
 // Card component for dashboard sections
