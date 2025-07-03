@@ -30,12 +30,13 @@ export default function RootLayout({
         className={twMerge(
           inter.variable,
           calistoga.variable,
-          "bg-[#EAEEFE] antialiased font-sans"
+          "bg-[#EAEEFE] antialiased"
         )}
+        suppressHydrationWarning
       >
-        <Navbar /> {/* Adds the navbar */}
+        <Navbar /> 
         <main> {children} </main>
-        <Footer /> {/* Adds the footer */}
+        <Footer /> 
       </body>
     </html>
   );
