@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  password  String
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  workoutTemplates WorkoutTemplate[]
+  userWorkouts     UserWorkout[]
+
+  @@map("profiles")
+}
+
+model Exercise {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String?
+  videoUrl    String?  @map("video_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  templateExercises TemplateExercise[]
+
+  @@map("exercises")
+}
+
+model WorkoutTemplate {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  trainerId   String   @map("trainer_id") @db.ObjectId
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  trainer           Profile            @relation(fields: [trainerId], references: [id], onDelete: Cascade)
+  templateExercises TemplateExercise[]
+  userWorkouts      UserWorkout[]
+
+  @@map("workout_templates")
+}
+
+model TemplateExercise {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  templateId String @map("template_id") @db.ObjectId
+  exerciseId String @map("exercise_id") @db.ObjectId
+  sets       Int
+  reps       Int
+  orderIndex Int    @map("order_index")
+
+  // Relations
+  template WorkoutTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  exercise Exercise        @relation(fields: [exerciseId], references: [id])
+
+  @@map("template_exercises")
+}
+
+model UserWorkout {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String    @map("user_id") @db.ObjectId
+  templateId String?   @map("template_id") @db.ObjectId
+  date       DateTime  @default(now())
+  notes      String?
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  user     Profile          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template WorkoutTemplate? @relation(fields: [templateId], references: [id])
+
+  @@map("user_workouts")
+}
+
+enum Role {
+  CLIENT
+  TRAINER
+  ADMIN
+}
