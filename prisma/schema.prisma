@@ -15,6 +15,10 @@ model Profile {
   email     String   @unique
   firstName String   @map("first_name")
   lastName  String   @map("last_name")
+  age       Int?
+  height    Int?
+  weight    Int?
+  sex       String?
   password  String
   role      Role     @default(CLIENT)
   createdAt DateTime @default(now()) @map("created_at")
