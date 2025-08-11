@@ -30,6 +30,10 @@ export interface User {
   email: string
   firstName: string
   lastName: string
+  age?: number
+  height?: number
+  weight?: number
+  sex?: string
   role: Role
 }
 
@@ -139,6 +143,10 @@ export async function getCurrentUser(token: string): Promise<User | null> {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      age: user.age ?? undefined,
+      height: user.height ?? undefined,
+      weight: user.weight ?? undefined,
+      sex: user.sex ?? undefined,
       role: user.role
     }
   } catch (error) {
@@ -160,6 +168,30 @@ export async function getProfile(userId: string): Promise<User | null> {
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
+    age: user.age ?? undefined,
+    height: user.height ?? undefined,
+    weight: user.weight ?? undefined,
+    sex: user.sex ?? undefined,
     role: user.role
+  }
+}
+
+export async function verifyAuth(request: Request): Promise<{ success: boolean; user?: User }> {
+  try {
+    const token = request.headers.get('cookie')?.split('auth-token=')[1]?.split(';')[0]
+
+    if (!token) {
+      return { success: false }
+    }
+
+    const user = await getCurrentUser(token)
+
+    if (!user) {
+      return { success: false }
+    }
+
+    return { success: true, user }
+  } catch (error) {
+    return { success: false }
   }
 }

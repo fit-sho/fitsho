@@ -5,6 +5,10 @@ export interface User {
   email: string
   firstName: string
   lastName: string
+  age?: number
+  height?: number
+  weight?: number
+  sex?: string
   role: Role
 }
 
