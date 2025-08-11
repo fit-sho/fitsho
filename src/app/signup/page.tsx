@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { authClient, SignUpData } from '@/lib/client-auth'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState<SignUpData>({
@@ -18,7 +19,26 @@ export default function SignUpPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const router = useRouter()
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const user = await authClient.getCurrentUser()
+        if (user) {
+          const redirectPath = user.role === 'ADMIN' ? '/admin' : '/dashboard'
+          router.push(redirectPath)
+          return
+        }
+      } catch (error) {
+      } finally {
+        setCheckingAuth(false)
+      }
+    }
+
+    checkAuthStatus()
+  }, [router])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -72,7 +92,9 @@ export default function SignUpPage() {
       const result = await authClient.signUp(formData)
       setSuccess(result.message)
       
-      // Redirect to dashboard after successful signup
+      // Dispatch custom event to notify navbar of authentication change
+      window.dispatchEvent(new CustomEvent('authStateChanged'))
+      
       setTimeout(() => {
         router.push('/dashboard')
       }, 1500)
@@ -81,6 +103,18 @@ export default function SignUpPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 flex items-center justify-center">
+        <LoadingSpinner 
+          message="Checking authentication..." 
+          theme="purple" 
+          size="lg" 
+        />
+      </div>
+    )
   }
 
   return (

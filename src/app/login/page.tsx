@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { authClient, SignInData } from '@/lib/client-auth'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState<SignInData>({
@@ -13,7 +14,26 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const router = useRouter()
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const user = await authClient.getCurrentUser()
+        if (user) {
+          const redirectPath = user.role === 'ADMIN' ? '/admin' : '/dashboard'
+          router.push(redirectPath)
+          return
+        }
+      } catch (error) {
+      } finally {
+        setCheckingAuth(false)
+      }
+    }
+
+    checkAuthStatus()
+  }, [router])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -37,6 +57,9 @@ export default function LoginPage() {
     try {
       const result = await authClient.signIn(formData)
       
+      // Dispatch custom event to notify navbar of authentication change
+      window.dispatchEvent(new CustomEvent('authStateChanged'))
+      
       const redirectPath = result.user.role === 'ADMIN' ? '/admin' : '/dashboard'
       router.push(redirectPath)
     } catch (err: any) {
@@ -44,6 +67,18 @@ export default function LoginPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center">
+        <LoadingSpinner 
+          message="Checking authentication..." 
+          theme="gradient" 
+          size="lg" 
+        />
+      </div>
+    )
   }
 
   return (
