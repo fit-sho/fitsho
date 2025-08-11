@@ -24,19 +24,29 @@ export const Navbar: React.FC = () => {
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
   
+  const checkAuth = async () => {
+    try {
+      const currentUser = await authClient.getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const currentUser = await authClient.getCurrentUser();
-        setUser(currentUser);
-      } catch (error) {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+    checkAuth();
+
+    const handleAuthChange = () => {
+      checkAuth();
     };
 
-    checkAuth();
+    window.addEventListener('authStateChanged', handleAuthChange);
+    
+    return () => {
+      window.removeEventListener('authStateChanged', handleAuthChange);
+    };
   }, []);
 
   // Close user menu when clicking outside
