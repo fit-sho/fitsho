@@ -4,8 +4,6 @@ import StarImage from "@/assets/images/homeImages/star.png";
 import SpringImage from "@/assets/images/homeImages/spring.png";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { SectionTitle } from "@/components/SectionTitle";
-import { SectionDesc } from "@/components/SectionDesc";
 
 export const CallToAction = () => {
   const sectionRef = useRef(null);
@@ -20,24 +18,22 @@ export const CallToAction = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-gradient-to-b from-white to-[#D2DCFF] py-24 overflow-x-clip"
+      className="overflow-x-clip bg-gradient-to-b from-white to-[#D2DCFF] py-24"
     >
       <div className="container">
         <div className="section-heading relative">
-          <SectionTitle
-            title="Sign up for free today"
-            className="text-center mt-5"
-          />
-          <SectionDesc
-            description="Celebrate the joy of accomplishment with an app designed to track
-            your fitness progress and motivate your efforts."
-            className="text-center mt-5"
-          />
+          <h2 className="mt-5 text-center text-3xl font-bold tracking-tighter text-black md:text-5xl">
+            Sign up for free today
+          </h2>
+          <p className="mt-5 text-center text-lg text-[#010D3E] md:text-xl">
+            Celebrate the joy of accomplishment with an app designed to track
+            your fitness progress and motivate your efforts.
+          </p>
           <motion.img
             src={StarImage.src}
             alt="Star Image"
             width={360}
-            className="absolute -left-[350px]  -top-[137px]"
+            className="absolute -left-[350px] -top-[137px]"
             style={{ translateY }}
           />
           <motion.img
@@ -48,7 +44,7 @@ export const CallToAction = () => {
             style={{ translateY }}
           />
         </div>
-        <div className="flex gap-2 mt-10 justify-center">
+        <div className="mt-10 flex justify-center gap-2">
           <a href="#">
             <button className="btn btn-primary">Get for free</button>
           </a>

@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import CheckIcon from "@/assets/icons/check.svg";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
-import { SectionTitle } from "@/components/SectionTitle";
-import { SectionDesc } from "@/components/SectionDesc";
 
 const pricingTiers = [
   {
@@ -66,14 +64,15 @@ export const Pricing = () => {
     <section className="py-24">
       <div className="container">
         <div className="section-heading">
-          <SectionTitle title="Pricing" className="text-center mt-5" />
-          <SectionDesc
-            description="Free forever. Upgrade for unlimited plans, better secuirty and
-            exclusive features."
-            className="text-center mt-3"
-          />
+          <h2 className="mt-5 text-center text-3xl font-bold tracking-tighter text-black md:text-5xl">
+            Pricing
+          </h2>
+          <p className="mt-3 text-center text-lg text-[#010D3E] md:text-xl">
+            Free forever. Upgrade for unlimited plans, better security and
+            exclusive features.
+          </p>
         </div>
-        <div className="flex flex-col gap-6 items-center mt-10 lg:flex-row lg:items-end lg:justify-center">
+        <div className="mt-10 flex flex-col items-center gap-6 lg:flex-row lg:items-end lg:justify-center">
           {pricingTiers.map(
             (
               {
@@ -90,8 +89,8 @@ export const Pricing = () => {
               <div
                 key={index}
                 className={twMerge(
-                  "p-10 border border-[#F1F1F1] bg-gray-50 rounded-3xl shadow-[0_7px_14px_#EAEAEA] max-w-xs w-full",
-                  inverse === true && "border-black bg-black text-white "
+                  "w-full max-w-xs rounded-3xl border border-[#F1F1F1] bg-gray-50 p-10 shadow-[0_7px_14px_#EAEAEA]",
+                  inverse === true && "border-black bg-black text-white"
                 )}
               >
                 <div className="flex justify-between">
@@ -104,7 +103,7 @@ export const Pricing = () => {
                     {title}
                   </h3>
                   {popular === true && (
-                    <div className="inline-flex text-sm px-4 py-1.5 rounded-xl border border-white/20">
+                    <div className="inline-flex rounded-xl border border-white/20 px-4 py-1.5 text-sm">
                       <motion.span
                         animate={{
                           backgroundPositionX: "-100%",
@@ -115,35 +114,35 @@ export const Pricing = () => {
                           repeatType: "loop",
                           ease: "linear",
                         }}
-                        className="bg-[linear-gradient(to_right,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF)] [background-size:200%] text-transparent bg-clip-text font-medium"
+                        className="bg-[linear-gradient(to_right,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF)] bg-clip-text font-medium text-transparent [background-size:200%]"
                       >
                         Popular
                       </motion.span>
                     </div>
                   )}
                 </div>
-                <div className="flex items-baseline gap-1 mt-[30px]">
-                  <span className="text-4xl font-bold tracking-tighter leading-none">
+                <div className="mt-[30px] flex items-baseline gap-1">
+                  <span className="text-4xl font-bold leading-none tracking-tighter">
                     ${monthlyPrice}
                   </span>
-                  <span className="tracking-tight font-bold text-black/50">
+                  <span className="font-bold tracking-tight text-black/50">
                     /month
                   </span>
                 </div>
                 <Link
                   href={href}
                   className={twMerge(
-                    "btn btn-primary w-full mt-[30px] flex justify-center items-center",
+                    "btn btn-primary mt-[30px] flex w-full items-center justify-center",
                     inverse === true && "bg-white text-black"
                   )}
                 >
                   {buttonText}
                 </Link>
-                <ul className="flex flex-col gap-5 mt-8">
+                <ul className="mt-8 flex flex-col gap-5">
                   {features.map((feature, featureIndex) => (
                     <li
                       key={featureIndex}
-                      className="text-sm flex items-center gap-4"
+                      className="flex items-center gap-4 text-sm"
                     >
                       <CheckIcon className="h-6 w-6" />
                       <span>{feature}</span>

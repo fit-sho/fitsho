@@ -34,9 +34,9 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
-        <Navbar /> 
+        <Navbar />
         <main> {children} </main>
-        <Footer /> 
+        <Footer />
       </body>
     </html>
   );
