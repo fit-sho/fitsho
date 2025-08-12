@@ -27,6 +27,15 @@ interface ProfileFormData {
   sex: string;
 }
 
+interface ProfileFormErrors {
+  firstName?: string;
+  lastName?: string;
+  age?: string;
+  height?: string;
+  weight?: string;
+  sex?: string;
+}
+
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,7 +49,7 @@ export default function ProfilePage() {
     weight: 0,
     sex: "",
   });
-  const [errors, setErrors] = useState<Partial<ProfileFormData>>({});
+  const [errors, setErrors] = useState<ProfileFormErrors>({});
   const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
 
@@ -73,7 +82,7 @@ export default function ProfilePage() {
   }, [router]);
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<ProfileFormData> = {};
+    const newErrors: ProfileFormErrors = {};
 
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
