@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Plus, ArrowLeft } from "lucide-react";
-import { WorkoutTemplate } from "../../../components/admin/types";
-import { TemplateList } from "../../../components/admin/TemplateList";
-import { AnimatedBackground } from "../../../components/workout/AnimatedBackground";
+import { WorkoutTemplate } from "@/components/admin/types";
+import { TemplateList } from "@/components/admin/TemplateList";
+import { AnimatedBackground } from "@/components/workout/AnimatedBackground";
 
 export default function AdminTemplatesPage() {
   const router = useRouter();

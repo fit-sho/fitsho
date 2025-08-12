@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { Exercise, WorkoutTemplate, CreateTemplateData } from "../../../../../components/admin/types";
-import { WorkoutTemplateForm } from "../../../../../components/admin/WorkoutTemplateForm";
-import { AnimatedBackground } from "../../../../../components/workout/AnimatedBackground";
+import { Exercise, WorkoutTemplate, CreateTemplateData } from "@/components/admin/types";
+import { WorkoutTemplateForm } from "@/components/admin/WorkoutTemplateForm";
+import { AnimatedBackground } from "@/components/workout/AnimatedBackground";
 
 export default function EditTemplatePage() {
   const router = useRouter();
@@ -113,7 +113,7 @@ export default function EditTemplatePage() {
         <WorkoutTemplateForm
           template={template}
           exercises={exercises}
-          onSubmit={handleUpdateTemplate}
+          onSave={handleUpdateTemplate}
           onCancel={() => router.push('/admin/templates')}
           isLoading={isLoading}
         />

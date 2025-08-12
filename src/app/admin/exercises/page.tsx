@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Plus, ArrowLeft } from "lucide-react";
-import { Exercise } from "../../../components/admin/types";
-import { ExerciseList } from "../../../components/admin/ExerciseList";
-import { AnimatedBackground } from "../../../components/workout/AnimatedBackground";
+import { Exercise } from "@/components/admin/types";
+import { ExerciseList } from "@/components/admin/ExerciseList";
+import { AnimatedBackground } from "@/components/workout/AnimatedBackground";
 
 export default function AdminExercisesPage() {
   const router = useRouter();

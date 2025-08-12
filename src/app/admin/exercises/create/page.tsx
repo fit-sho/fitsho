@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { CreateExerciseData } from "../../../../components/admin/types";
-import { ExerciseForm } from "../../../../components/admin/ExerciseForm";
-import { AnimatedBackground } from "../../../../components/workout/AnimatedBackground";
+import { CreateExerciseData } from "@/components/admin/types";
+import { ExerciseForm } from "@/components/admin/ExerciseForm";
+import { AnimatedBackground } from "@/components/workout/AnimatedBackground";
 
 export default function CreateExercisePage() {
   const router = useRouter();
@@ -53,7 +53,7 @@ export default function CreateExercisePage() {
         </div>
 
         <ExerciseForm
-          onSubmit={handleCreateExercise}
+          onSave={handleCreateExercise}
           onCancel={() => router.push('/admin/exercises')}
           isLoading={false}
         />
