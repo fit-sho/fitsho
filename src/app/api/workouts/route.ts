@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify authentication
     const token = request.cookies.get('auth-token')?.value;
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -15,7 +14,6 @@ export async function POST(request: NextRequest) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
     const { userId, exercises, notes } = await request.json();
 
-    // Verify the user is creating their own workout
     if (decoded.userId !== userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -27,7 +25,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create the workout
     const workout = await prisma.userWorkout.create({
       data: {
         userId,
@@ -64,7 +61,6 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    // Verify authentication
     const token = request.cookies.get('auth-token')?.value;
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -74,7 +70,6 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
-    // Verify the user is accessing their own workouts
     if (decoded.userId !== userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
