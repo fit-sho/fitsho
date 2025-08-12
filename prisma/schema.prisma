@@ -32,17 +32,22 @@ model Profile {
 }
 
 model Exercise {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   @unique
-  description String?
-  videoUrl    String?  @map("video_url")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  description      String
+  muscleGroups     MuscleGroup[]
+  videoUrl         String?
+  imageUrl         String?
+  recommendedSets  Int?           @default(4)
+  recommendedReps  String?        @default("8-12")
+  difficulty       String?        @default("Intermediate") // Beginner, Intermediate, Advanced
+  equipment        String?        // Barbell, Dumbbell, Bodyweight, Machine, etc.
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  
   // Relations
+  workoutExercises WorkoutExercise[]
   templateExercises TemplateExercise[]
-
-  @@map("exercises")
 }
 
 model WorkoutTemplate {
@@ -86,8 +91,9 @@ model UserWorkout {
   updatedAt  DateTime  @updatedAt @map("updated_at")
 
   // Relations
-  user     Profile          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  template WorkoutTemplate? @relation(fields: [templateId], references: [id])
+  user             Profile           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template         WorkoutTemplate?  @relation(fields: [templateId], references: [id])
+  workoutExercises WorkoutExercise[]
 
   @@map("user_workouts")
 }
@@ -96,4 +102,35 @@ enum Role {
   CLIENT
   TRAINER
   ADMIN
+}
+
+enum MuscleGroup {
+  CHEST
+  BACK
+  SHOULDERS
+  BICEPS
+  TRICEPS
+  LEGS
+  GLUTES
+  CORE
+  CARDIO
+}
+
+model WorkoutExercise {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  workoutId  String   @map("workout_id") @db.ObjectId
+  exerciseId String   @map("exercise_id") @db.ObjectId
+  sets       Int
+  reps       Int
+  weight     Float?
+  notes      String?
+  orderIndex Int      @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  workout  UserWorkout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise Exercise    @relation(fields: [exerciseId], references: [id])
+
+  @@map("workout_exercises")
 }
