@@ -18,12 +18,14 @@ export interface WorkoutSet {
 }
 
 export interface WorkoutExercise {
+  id: string;
   exerciseId: string;
   exercise: Exercise;
   sets: WorkoutSet[];
   notes: string;
-  targetSets: number;
-  targetReps: string;
+  targetSets?: number;
+  targetReps?: string;
+  completed?: boolean;
 }
 
 export interface MuscleGroupOption {

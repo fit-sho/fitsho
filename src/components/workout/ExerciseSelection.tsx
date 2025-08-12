@@ -10,8 +10,14 @@ interface ExerciseSelectionProps {
   availableExercises: Exercise[];
   workoutExercises: WorkoutExercise[];
   onAddExercise: (exercise: Exercise) => void;
+  onRemoveExercise?: (exerciseId: string) => void;
+  onContinue: () => void;
   onBack: () => void;
   onShowAddMuscleModal: () => void;
+  onAddMuscle?: () => void;
+  showAddMuscleModal?: boolean;
+  onCloseAddMuscleModal?: () => void;
+  onAddMuscleConfirm?: (muscle: string) => void;
 }
 
 export const ExerciseSelection = ({
@@ -19,8 +25,14 @@ export const ExerciseSelection = ({
   availableExercises,
   workoutExercises,
   onAddExercise,
+  onRemoveExercise,
+  onContinue,
   onBack,
   onShowAddMuscleModal,
+  onAddMuscle,
+  showAddMuscleModal,
+  onCloseAddMuscleModal,
+  onAddMuscleConfirm,
 }: ExerciseSelectionProps) => {
   const isExerciseInWorkout = (exerciseId: string) => {
     return workoutExercises.some(we => we.exerciseId === exerciseId);

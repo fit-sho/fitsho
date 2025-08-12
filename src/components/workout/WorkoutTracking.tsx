@@ -7,19 +7,17 @@ import { WorkoutExercise, WorkoutSet } from "./types";
 interface WorkoutTrackingProps {
   workoutExercises: WorkoutExercise[];
   workoutNotes: string;
-  onUpdateExercise: (exerciseId: string, updates: Partial<WorkoutExercise>) => void;
-  onRemoveExercise: (exerciseId: string) => void;
+  onUpdateExercise: (updatedExercise: WorkoutExercise) => void;
   onUpdateNotes: (notes: string) => void;
-  onSaveWorkout: () => void;
+  onFinishWorkout: () => void;
 }
 
 export const WorkoutTracking = ({
   workoutExercises,
   workoutNotes,
   onUpdateExercise,
-  onRemoveExercise,
   onUpdateNotes,
-  onSaveWorkout,
+  onFinishWorkout,
 }: WorkoutTrackingProps) => {
   const updateSet = (exerciseId: string, setIndex: number, updates: Partial<WorkoutSet>) => {
     const exercise = workoutExercises.find(we => we.exerciseId === exerciseId);
@@ -29,7 +27,7 @@ export const WorkoutTracking = ({
       index === setIndex ? { ...set, ...updates } : set
     );
 
-    onUpdateExercise(exerciseId, { sets: updatedSets });
+    onUpdateExercise({ ...exercise, sets: updatedSets });
   };
 
   const addSet = (exerciseId: string) => {
@@ -37,7 +35,7 @@ export const WorkoutTracking = ({
     if (!exercise) return;
 
     const newSet: WorkoutSet = { reps: 0, weight: 0, completed: false };
-    onUpdateExercise(exerciseId, { sets: [...exercise.sets, newSet] });
+    onUpdateExercise({ ...exercise, sets: [...exercise.sets, newSet] });
   };
 
   const removeSet = (exerciseId: string, setIndex: number) => {
@@ -45,7 +43,7 @@ export const WorkoutTracking = ({
     if (!exercise || exercise.sets.length <= 1) return;
 
     const updatedSets = exercise.sets.filter((_, index) => index !== setIndex);
-    onUpdateExercise(exerciseId, { sets: updatedSets });
+    onUpdateExercise({ ...exercise, sets: updatedSets });
   };
 
   return (
@@ -81,12 +79,7 @@ export const WorkoutTracking = ({
                   )}
                 </div>
               </div>
-              <button
-                onClick={() => onRemoveExercise(workoutExercise.exerciseId)}
-                className="text-red-400 hover:text-red-300 p-2"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              {/* Remove exercise button - functionality can be added later if needed */}
             </div>
 
             <div className="space-y-3">
@@ -150,7 +143,7 @@ export const WorkoutTracking = ({
               <label className="block text-sm font-medium mb-2">Exercise Notes:</label>
               <textarea
                 value={workoutExercise.notes}
-                onChange={(e) => onUpdateExercise(workoutExercise.exerciseId, { notes: e.target.value })}
+                onChange={(e) => onUpdateExercise({ ...workoutExercise, notes: e.target.value })}
                 placeholder="Form cues, observations, etc..."
                 className="w-full px-3 py-2 bg-slate-700 rounded-lg resize-none"
                 rows={2}
@@ -175,7 +168,7 @@ export const WorkoutTracking = ({
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={onSaveWorkout}
+          onClick={onFinishWorkout}
           className="bg-gradient-to-r from-green-500 to-emerald-500 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 mx-auto"
         >
           <Save className="w-4 h-4" /> Save Workout

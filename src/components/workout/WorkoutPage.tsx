@@ -77,6 +77,7 @@ export default function WorkoutPage() {
 
   const addExerciseToWorkout = (exercise: Exercise) => {
     const newWorkoutExercise: WorkoutExercise = {
+      id: Date.now().toString() + Math.random(),
       exerciseId: exercise.id,
       exercise,
       sets: Array.from({ length: exercise.recommendedSets || 3 }, () => ({
@@ -92,9 +93,9 @@ export default function WorkoutPage() {
     setWorkoutExercises(prev => [...prev, newWorkoutExercise]);
   };
 
-  const updateWorkoutExercise = (exerciseId: string, updates: Partial<WorkoutExercise>) => {
-    setWorkoutExercises(prev =>
-      prev.map(we => we.exerciseId === exerciseId ? { ...we, ...updates } : we)
+  const updateWorkoutExercise = (updatedExercise: WorkoutExercise) => {
+    setWorkoutExercises(prev => 
+      prev.map(we => we.id === updatedExercise.id ? updatedExercise : we)
     );
   };
 
@@ -177,6 +178,7 @@ export default function WorkoutPage() {
             availableExercises={availableExercises}
             workoutExercises={workoutExercises}
             onAddExercise={addExerciseToWorkout}
+            onContinue={() => setCurrentStep(3)}
             onBack={() => setCurrentStep(1)}
             onShowAddMuscleModal={() => setShowAddMuscleModal(true)}
           />
@@ -188,9 +190,8 @@ export default function WorkoutPage() {
             workoutExercises={workoutExercises}
             workoutNotes={workoutNotes}
             onUpdateExercise={updateWorkoutExercise}
-            onRemoveExercise={removeExerciseFromWorkout}
             onUpdateNotes={setWorkoutNotes}
-            onSaveWorkout={saveWorkout}
+            onFinishWorkout={saveWorkout}
           />
         )}
       </div>

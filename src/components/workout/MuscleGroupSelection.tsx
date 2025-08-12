@@ -8,12 +8,20 @@ interface MuscleGroupSelectionProps {
   selectedMuscles: string[];
   onMuscleToggle: (muscle: string) => void;
   onContinue: () => void;
+  onAddMuscle?: () => void;
+  showAddMuscleModal?: boolean;
+  onCloseAddMuscleModal?: () => void;
+  onAddMuscleConfirm?: (muscle: string) => void;
 }
 
 export const MuscleGroupSelection = ({
   selectedMuscles,
   onMuscleToggle,
   onContinue,
+  onAddMuscle,
+  showAddMuscleModal,
+  onCloseAddMuscleModal,
+  onAddMuscleConfirm,
 }: MuscleGroupSelectionProps) => {
   return (
     <motion.div
