@@ -13,6 +13,7 @@ import {
   LayoutDashboard,
   Settings,
   LogOut,
+  Dumbbell,
 } from "lucide-react";
 
 export const Navbar: React.FC = () => {
@@ -126,6 +127,9 @@ export const Navbar: React.FC = () => {
                 <div className="flex items-center gap-4">
                   <Link href="/dashboard" className="hover-nav">
                     Dashboard
+                  </Link>
+                  <Link href="/workout" className="hover-nav">
+                    Workout
                   </Link>
                   {user.role === "ADMIN" && (
                     <Link href="/admin" className="hover-nav">
@@ -267,6 +271,15 @@ export const Navbar: React.FC = () => {
                   >
                     <LayoutDashboard className="h-4 w-4" />
                     Dashboard
+                  </Link>
+
+                  <Link
+                    href="/workout"
+                    className="flex items-center gap-2 text-gray-700 transition-colors hover:text-indigo-600"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Dumbbell className="h-4 w-4" />
+                    Workout
                   </Link>
 
                   {user.role === "ADMIN" && (
