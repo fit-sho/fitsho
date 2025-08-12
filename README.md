@@ -1,90 +1,91 @@
-# Fitsho
+# FitSho
 
 ## Overview
 
-Fitsho is a comprehensive fitness management platform designed to bridge the gap between personal trainers and their clients. The application enables efficient workout planning, tracking, and progress monitoring in a collaborative environment.
+A comprehensive fitness management platform that revolutionizes the relationship between personal trainers and their clients. This modern web application combines advanced workout planning, real-time progress tracking, and intelligent exercise recommendations in a sleek, futuristic interface.
 
-Trainers can design custom workout templates with specific exercises, sets, and repetition schemes. Clients can then access these templates, log their workout sessions, track their progress over time, and receive guidance from their trainers.
+The platform empowers trainers to create sophisticated workout templates with detailed exercise libraries, while clients enjoy an intuitive workout experience with visual exercise cards, set-by-set tracking, and smart recommendations. Built with cutting-edge web technologies and featuring a glassmorphic design aesthetic.
 
-Built with modern web technologies including Next.js (TypeScript), Supabase (PostgreSQL), and Tailwind CSS, the app provides a responsive and intuitive user experience across devices.
+## Key Features
 
-## Features
+### 🏋️ Advanced Workout System
+- **Dynamic Muscle Group Selection**: Start with one muscle group, seamlessly add more during workout creation
+- **Visual Exercise Library**: High-quality exercise images from Unsplash with detailed metadata
+- **Smart Recommendations**: AI-powered set/rep suggestions (e.g., "4×8-12", "3×to failure")
+- **Individual Exercise Tracking**: Set-by-set logging with completion checkboxes and progress indicators
+- **Equipment & Difficulty Indicators**: Visual badges for required equipment and difficulty levels
 
-- **User Authentication**: Secure sign up, sign in, and session management via Supabase Auth with email/password and social login options.
-- **Client Dashboard**: Clients can view assigned workouts, log completed sessions, and track their fitness journey.
-- **Workout Templates**: Trainers create customizable workout templates with exercises, sets, reps, and instructions.
-- **Exercise Library**: Extensive database of exercises with descriptions, muscle groups, and demonstration images.
-- **Workout Logging**: Clients record detailed workout data including sets, reps, weights, and notes.
-- **Progress Tracking**: Visual representation of performance metrics over time.
+### 🎨 Modern UI/UX
+- **Futuristic Design**: Glassmorphism effects with animated background elements
+- **Responsive Interface**: Optimized for desktop, tablet, and mobile devices
+- **Interactive Animations**: Framer Motion animations throughout the application
+- **Dark Theme**: Modern dark slate color scheme with cyan/purple gradients
 
+### 🔐 Secure Authentication & Authorization
+- **JWT-Based Authentication**: HTTP-only cookies for enhanced security
+- **Role-Based Access Control**: Separate interfaces for Clients, Trainers, and Admins
+- **Admin Panel**: Comprehensive management dashboard for exercise and template administration
+- **Password Security**: Bcrypt hashing with secure password reset functionality
+
+### 📊 Comprehensive Tracking
+- **Workout Logging**: Detailed session recording with notes and observations
+- **Progress Monitoring**: Visual representation of performance metrics over time
+- **Exercise Notes**: Per-exercise form cues and personal observations
+- **Workout History**: Complete session history with searchable records
 
 ## Tech Stack
 
-- **Framework**: Next.js with TypeScript
-- **Styling**: Tailwind CSS with custom theme configuration
-- **State Management**: React Context API and hooks
-- **Backend & Authentication**: Supabase (PostgreSQL database + Auth services)
+### Frontend
+- **Framework**: Next.js 14 with TypeScript
+- **Styling**: Tailwind CSS with custom glassmorphic theme
+- **Animations**: Framer Motion for smooth interactions
+- **Icons**: Lucide React for consistent iconography
+- **State Management**: React Context API and custom hooks
 
-## TODO
+### Backend
+- **Database**: MongoDB with Prisma ORM
+- **Authentication**: Custom JWT implementation with HTTP-only cookies
+- **API**: Next.js API routes with proper authentication middleware
+- **Security**: bcryptjs for password hashing, role-based access control
 
-- [ ] Implement notification system for workout reminders and trainer feedback
-- [ ] Add nutrition tracking functionality with meal planning features
-- [ ] Develop a messaging system between trainers and clients
-- [ ] Create data visualization components for better progress tracking
-- [ ] Implement export functionality for workout data
-- [ ] Add integration with wearable fitness devices (Apple Watch, Fitbit, etc.)
-- [ ] Develop a mobile app version using React Native
-- [ ] Implement payment processing for premium features
-- [ ] Add internationalization support
-- [ ] Improve accessibility features
+### Development
+- **Language**: TypeScript for type safety
+- **Deployment**: Vercel-ready with environment configuration
+- **Database Hosting**: MongoDB Atlas compatible
 
-## Getting Started
+## Architecture Highlights
 
-### Prerequisites
+### Database Design
+- **MongoDB Collections**: Users, Exercises, Workout Templates, Workout Sessions
+- **Prisma Schema**: Type-safe database operations with camelCase field naming
+- **Data Relationships**: Efficient referencing between users, templates, and workout sessions
 
-- Node.js (v16.x or later)
-- npm or yarn
-- Supabase account (for database and authentication)
+### Security Implementation
+- **Row-Level Security**: Role-based access control at the database level
+- **JWT Tokens**: Secure authentication with HTTP-only cookie storage
+- **Password Hashing**: Industry-standard bcrypt implementation
+- **Admin Protection**: Multi-layer authorization for administrative functions
 
-### Installation
+### User Experience Flow
+1. **Authentication**: Secure signup/login with role selection (Client/Trainer/Admin)
+2. **Workout Creation**: Dynamic muscle group selection → Exercise library browsing → Template building
+3. **Exercise Selection**: Visual cards with images, difficulty badges, and equipment indicators
+4. **Workout Execution**: Set-by-set tracking with real-time progress indicators
+5. **Progress Review**: Historical data visualization and performance analytics
 
-1. Clone the repository
-```bash
-git clone https://github.com/A-Shalchian/fitsho.git
-cd fitsho
-```
+## Key Innovations
 
-2. Install dependencies
-```bash
-npm install
-```
+- **Dynamic Workout Builder**: Real-time muscle group addition during workout creation
+- **Visual Exercise Library**: Integration with Unsplash for high-quality exercise imagery
+- **Smart Recommendations**: Context-aware set/rep suggestions based on exercise type
+- **Glassmorphic Design**: Modern UI with backdrop blur and gradient effects
+- **Set-by-Set Tracking**: Individual set completion with visual feedback
+- **Role-Based Dashboards**: Tailored interfaces for different user types
 
-3. Set up environment variables
-Create a `.env.local` file in the root directory with the following variables:
-```
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-```
+## Future Roadmap
 
-4. Run the development server
-```bash
-npm run dev
-```
-
-5. Open your browser and navigate to `http://localhost:3000`
-
-## Contributing
-
-Contributions are welcome and greatly appreciated! If you're interested in helping improve Fitsho, please follow these steps:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-Please make sure to update tests as appropriate and adhere to the existing coding style.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- [ ] **Nutrition Integration**: Meal planning and macro tracking
+- [ ] **AI Workout Generation**: Machine learning-powered workout recommendations
+- [ ] **Social Features**: Trainer-client messaging and community challenges
+- [ ] **Mobile Application**: React Native companion app
+- [ ] **Advanced Analytics**: Performance insights and trend analysis
