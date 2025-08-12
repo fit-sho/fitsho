@@ -1,8 +1,6 @@
 import logo from "@/assets/images/logo-fitsho.png";
 import Image from "next/image";
-import SocialInsta from "@/assets/icons/socialIcons/social-insta.svg";
-import SocialLinkedin from "@/assets/icons/socialIcons/social-linkedin.svg";
-import SocialYoutube from "@/assets/icons/socialIcons/social-youtube.svg";
+import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 export const Footer = () => {
   return (
@@ -20,7 +18,7 @@ export const Footer = () => {
         </div>
         <nav className="mt-6 flex flex-col gap-6 md:flex-row md:justify-center">
           <a href="#">About</a>
-          <a href="#">Features</a>
+          <a href="/features">Features</a>
           <a href="#">Customers</a>
           <a href="#">Pricing</a>
           <a href="#">Help</a>
@@ -28,13 +26,13 @@ export const Footer = () => {
         </nav>
         <div className="mt-6 flex justify-center gap-6">
           <a href="https://www.instagram.com/ilestarash/">
-            <SocialInsta />
+            <FaInstagram className="h-5 w-5" aria-label="Instagram" />
           </a>
           <a href="https://www.linkedin.com/in/arash-shalchian-230b06268/">
-            <SocialLinkedin />
+            <FaLinkedin className="h-5 w-5" aria-label="LinkedIn" />
           </a>
           <a href="https://www.youtube.com/@arashshalchian">
-            <SocialYoutube />
+            <FaYoutube className="h-5 w-5" aria-label="YouTube" />
           </a>
         </div>
         <p className="mt-6">&copy; 2025 FitSho, Inc. All rights reserved.</p>

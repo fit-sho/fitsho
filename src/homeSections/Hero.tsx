@@ -1,6 +1,6 @@
 "use client";
 import dumbell from "@/assets/images/homeImages/dumbbell_no_background.png";
-import ArrowRight from "@/assets/icons/ArrowRight.svg";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";

@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import CheckIcon from "@/assets/icons/check.svg";
+import { Check } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 
@@ -144,7 +144,7 @@ export const Pricing = () => {
                       key={featureIndex}
                       className="flex items-center gap-4 text-sm"
                     >
-                      <CheckIcon className="h-6 w-6" />
+                      <Check className="h-6 w-6" />
                       <span>{feature}</span>
                     </li>
                   ))}

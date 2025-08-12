@@ -1,5 +1,5 @@
 "use client";
-import ArrowRight from "@/assets/icons/ArrowRight.svg";
+import { ArrowRight } from "lucide-react";
 import StarImage from "@/assets/images/homeImages/star.png";
 import SpringImage from "@/assets/images/homeImages/spring.png";
 import { useRef } from "react";
@@ -51,7 +51,7 @@ export const CallToAction = () => {
           <a href="#">
             <button className="btn btn-text gap-1 border border-[#222]/10">
               <span>Learn more</span>
-              <ArrowRight className="h-5 w-5 fill-black" />
+              <ArrowRight className="h-5 w-5 text-black" aria-hidden="true" />
             </button>
           </a>
         </div>
