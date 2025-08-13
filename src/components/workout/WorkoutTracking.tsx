@@ -53,7 +53,7 @@ export const WorkoutTracking = ({
       className="max-w-4xl mx-auto"
     >
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-2">Track Your Workout</h2>
+        <h2 className="text-2xl font-bold mb-2 text-gray-200">Track Your Workout</h2>
         <p className="text-gray-400">Log your sets, reps, and weights</p>
       </div>
 
@@ -65,16 +65,16 @@ export const WorkoutTracking = ({
           >
             <div className="flex justify-between items-start mb-4">
               <div className="flex-1">
-                <h3 className="text-xl font-semibold mb-2">{workoutExercise.exercise.name}</h3>
+                <h3 className="text-xl font-semibold mb-2 text-gray-200">{workoutExercise.exercise.name}</h3>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
                   <div className="flex items-center gap-1">
                     <Target className="w-4 h-4 text-cyan-400" />
-                    <span>Target: {workoutExercise.targetSets} × {workoutExercise.targetReps}</span>
+                    <span className="text-gray-200">Target: {workoutExercise.targetSets} × {workoutExercise.targetReps}</span>
                   </div>
                   {workoutExercise.exercise.equipment && (
                     <div className="flex items-center gap-1">
                       <Zap className="w-4 h-4 text-purple-400" />
-                      <span>{workoutExercise.exercise.equipment}</span>
+                      <span className="text-gray-200">{workoutExercise.exercise.equipment}</span>
                     </div>
                   )}
                 </div>
@@ -85,15 +85,15 @@ export const WorkoutTracking = ({
             <div className="space-y-3">
               {workoutExercise.sets.map((set, setIndex) => (
                 <div key={setIndex} className="flex items-center gap-3 bg-slate-700/30 p-3 rounded-lg">
-                  <span className="text-sm font-medium w-12">Set {setIndex + 1}</span>
+                  <span className="text-sm font-medium w-12 text-gray-200">Set {setIndex + 1}</span>
                   
                   <div className="flex items-center gap-2">
-                    <label className="text-sm text-gray-400">Reps:</label>
+                    <label className="text-sm text-gray-200">Reps:</label>
                     <input
                       type="number"
                       value={set.reps || ""}
                       onChange={(e) => updateSet(workoutExercise.exerciseId, setIndex, { reps: parseInt(e.target.value) || 0 })}
-                      className="w-16 px-2 py-1 bg-slate-600 rounded text-center"
+                      className="w-16 px-2 py-1 bg-slate-600 rounded text-center text-gray-200"
                       min="0"
                     />
                   </div>
@@ -104,7 +104,7 @@ export const WorkoutTracking = ({
                       type="number"
                       value={set.weight || ""}
                       onChange={(e) => updateSet(workoutExercise.exerciseId, setIndex, { weight: parseFloat(e.target.value) || 0 })}
-                      className="w-20 px-2 py-1 bg-slate-600 rounded text-center"
+                      className="w-20 px-2 py-1 bg-slate-600 rounded text-center text-gray-200"
                       min="0"
                       step="0.5"
                     />
@@ -117,7 +117,7 @@ export const WorkoutTracking = ({
                       set.completed ? "bg-green-600 text-white" : "bg-slate-600 hover:bg-slate-500"
                     }`}
                   >
-                    <Check className="w-4 h-4" />
+                    <Check className="w-4 h-4 text-gray-200" />
                   </button>
 
                   {workoutExercise.sets.length > 1 && (
@@ -140,12 +140,12 @@ export const WorkoutTracking = ({
             </div>
 
             <div className="mt-4">
-              <label className="block text-sm font-medium mb-2">Exercise Notes:</label>
+              <label className="block text-sm font-medium mb-2 text-gray-200">Exercise Notes:</label>
               <textarea
                 value={workoutExercise.notes}
                 onChange={(e) => onUpdateExercise({ ...workoutExercise, notes: e.target.value })}
                 placeholder="Form cues, observations, etc..."
-                className="w-full px-3 py-2 bg-slate-700 rounded-lg resize-none"
+                className="w-full px-3 py-2 bg-slate-700 rounded-lg resize-none text-gray-200"
                 rows={2}
               />
             </div>
@@ -154,12 +154,12 @@ export const WorkoutTracking = ({
       </div>
 
       <div className="mt-8">
-        <label className="block text-sm font-medium mb-2">Workout Notes:</label>
+        <label className="block text-sm font-medium mb-2 text-gray-200">Workout Notes:</label>
         <textarea
           value={workoutNotes}
           onChange={(e) => onUpdateNotes(e.target.value)}
           placeholder="Overall workout reflection, how you felt, etc..."
-          className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg resize-none"
+          className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg resize-none text-gray-200"
           rows={3}
         />
       </div>

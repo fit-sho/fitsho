@@ -21,6 +21,9 @@ export const Navbar: React.FC = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -50,7 +53,53 @@ export const Navbar: React.FC = () => {
     };
   }, []);
 
-  // Close user menu when clicking outside
+  useEffect(() => {
+    let ticking = false;
+    
+    const controlNavbar = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const scrollDifference = Math.abs(currentScrollY - lastScrollY);
+          
+          if (scrollDifference > 5) {
+            if (currentScrollY < lastScrollY || currentScrollY < 10) {
+              if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+                setScrollTimeout(null);
+              }
+              setIsVisible(true);
+            } else if (currentScrollY > lastScrollY && currentScrollY > 100 && !scrollTimeout) {
+              const timeout = setTimeout(() => {
+                setIsVisible(false);
+                setIsUserMenuOpen(false); 
+                setIsMenuOpen(false); 
+                setScrollTimeout(null);
+              }, 500);
+              
+              setScrollTimeout(timeout);
+            }
+            
+            setLastScrollY(currentScrollY);
+          }
+          
+          ticking = false;
+        });
+        
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', controlNavbar, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', controlNavbar);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+    };
+  }, [lastScrollY, scrollTimeout]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -91,7 +140,9 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-20 backdrop-blur-sm">
+    <header className={`sticky top-0 z-20 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800/50 transition-transform duration-300 ease-in-out ${
+      isVisible ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       {pathname === "/" && (
         <div className="flex items-center justify-center gap-5 bg-black py-3 text-sm text-white">
           <p className="hidden text-neutral-100 md:block">
@@ -106,7 +157,7 @@ export const Navbar: React.FC = () => {
         </div>
       )}
 
-      <div className="py-5">
+      <div className="py-5 bg-slate-900/95">
         <div className="container">
           <div className="flex items-center justify-between">
             <a href="/#" className="hover:scale-125">
@@ -116,7 +167,7 @@ export const Navbar: React.FC = () => {
               className="h-5 w-5 cursor-pointer md:hidden"
               onClick={toggleMenu}
             />
-            <nav className="hidden items-center gap-5 text-black/60 md:flex lg:gap-7">
+            <nav className="hidden items-center gap-5 text-white/80 md:flex lg:gap-7">
               <a href="/features" className="hover-nav">
                 Features
               </a>
@@ -139,40 +190,40 @@ export const Navbar: React.FC = () => {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={toggleUserMenu}
-                      className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-gray-100"
+                      className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-slate-800/50"
                     >
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500 text-sm font-semibold text-white">
                         {getInitials(user.firstName, user.lastName)}
                       </div>
                       <div className="text-left">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-white">
                           {user.firstName} {user.lastName}
                         </div>
-                        <div className="text-xs capitalize text-gray-500">
+                        <div className="text-xs capitalize text-slate-400">
                           {user.role.toLowerCase()}
                         </div>
                       </div>
                       <ChevronDown
-                        className={`h-4 w-4 text-gray-400 transition-transform ${
+                        className={`h-4 w-4 text-slate-400 transition-transform ${
                           isUserMenuOpen ? "rotate-180" : ""
                         }`}
                       />
                     </button>
 
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
-                        <div className="border-b border-gray-100 px-4 py-2">
-                          <div className="text-sm font-medium text-gray-900">
+                      <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-slate-700 bg-slate-800 py-2 shadow-lg">
+                        <div className="border-b border-slate-700 px-4 py-2">
+                          <div className="text-sm font-medium text-white">
                             {user.firstName} {user.lastName}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-slate-400">
                             {user.email}
                           </div>
                         </div>
 
                         <Link
                           href="/profile"
-                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-slate-300 transition-colors hover:bg-slate-700"
                           onClick={() => setIsUserMenuOpen(false)}
                         >
                           <UserIcon className="h-4 w-4" />
@@ -181,7 +232,7 @@ export const Navbar: React.FC = () => {
 
                         <Link
                           href="/dashboard"
-                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-slate-300 transition-colors hover:bg-slate-700"
                           onClick={() => setIsUserMenuOpen(false)}
                         >
                           <LayoutDashboard className="h-4 w-4" />
@@ -191,7 +242,7 @@ export const Navbar: React.FC = () => {
                         {user.role === "ADMIN" && (
                           <Link
                             href="/admin"
-                            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                            className="flex items-center gap-3 px-4 py-2 text-slate-300 transition-colors hover:bg-slate-700"
                             onClick={() => setIsUserMenuOpen(false)}
                           >
                             <Settings className="h-4 w-4" />
@@ -199,10 +250,10 @@ export const Navbar: React.FC = () => {
                           </Link>
                         )}
 
-                        <div className="mt-2 border-t border-gray-100 pt-2">
+                        <div className="mt-2 border-t border-slate-700 pt-2">
                           <button
                             onClick={handleSignOut}
-                            className="flex w-full items-center gap-3 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
+                            className="flex w-full items-center gap-3 px-4 py-2 text-sm text-red-400 transition-colors hover:bg-red-900/20"
                           >
                             <LogOut className="h-4 w-4" />
                             Sign Out
@@ -227,29 +278,29 @@ export const Navbar: React.FC = () => {
           </div>
           {/* Mobile menu */}
           {isMenuOpen && (
-            <nav className="mt-3 flex flex-col items-center gap-4 text-black/60 md:hidden">
+            <nav className="mt-3 flex flex-col items-center gap-4 text-white/80 md:hidden">
               {loading ? (
                 <div className="h-10 w-20 animate-pulse rounded-lg bg-gray-200"></div>
               ) : user ? (
                 <>
-                  <div className="flex flex-col items-center gap-3 border-b border-gray-200 py-4">
+                  <div className="flex flex-col items-center gap-3 border-b border-slate-700 py-4">
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-500 text-lg font-semibold text-white">
                       {getInitials(user.firstName, user.lastName)}
                     </div>
                     <div className="text-center">
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-medium text-white">
                         {user.firstName} {user.lastName}
                       </div>
-                      <div className="text-xs capitalize text-gray-500">
+                      <div className="text-xs capitalize text-slate-400">
                         {user.role.toLowerCase()}
                       </div>
-                      <div className="text-xs text-gray-400">{user.email}</div>
+                      <div className="text-xs text-slate-500">{user.email}</div>
                     </div>
                   </div>
 
                   <a
                     href="/features"
-                    className="flex items-center gap-2 text-gray-700 transition-colors hover:text-indigo-600"
+                    className="flex items-center gap-2 text-slate-300 transition-colors hover:text-cyan-400"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Features
@@ -257,7 +308,7 @@ export const Navbar: React.FC = () => {
 
                   <Link
                     href="/profile"
-                    className="flex items-center gap-2 text-gray-700 transition-colors hover:text-indigo-600"
+                    className="flex items-center gap-2 text-slate-300 transition-colors hover:text-cyan-400"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <UserIcon className="h-4 w-4" />
@@ -266,7 +317,7 @@ export const Navbar: React.FC = () => {
 
                   <Link
                     href="/dashboard"
-                    className="flex items-center gap-2 text-gray-700 transition-colors hover:text-indigo-600"
+                    className="flex items-center gap-2 text-slate-300 transition-colors hover:text-cyan-400"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <LayoutDashboard className="h-4 w-4" />
@@ -275,7 +326,7 @@ export const Navbar: React.FC = () => {
 
                   <Link
                     href="/workout"
-                    className="flex items-center gap-2 text-gray-700 transition-colors hover:text-indigo-600"
+                    className="flex items-center gap-2 text-slate-300 transition-colors hover:text-cyan-400"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <Dumbbell className="h-4 w-4" />
@@ -285,7 +336,7 @@ export const Navbar: React.FC = () => {
                   {user.role === "ADMIN" && (
                     <Link
                       href="/admin"
-                      className="flex items-center gap-2 text-gray-700 transition-colors hover:text-indigo-600"
+                      className="flex items-center gap-2 text-slate-300 transition-colors hover:text-cyan-400"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <Settings className="h-4 w-4" />
@@ -295,7 +346,7 @@ export const Navbar: React.FC = () => {
 
                   <button
                     onClick={handleSignOut}
-                    className="mt-4 flex items-center gap-2 border-t border-gray-200 pt-4 text-red-600 transition-colors hover:text-red-700"
+                    className="mt-4 flex items-center gap-2 border-t border-slate-700 pt-4 text-red-400 transition-colors hover:text-red-300"
                   >
                     <LogOut className="h-4 w-4" />
                     Sign Out

@@ -36,24 +36,24 @@ export const ExerciseCard = ({ exercise, onAddToWorkout, isInWorkout = false }: 
       )}
       
       <div className="p-4">
-        <h3 className="font-semibold mb-2">{exercise.name}</h3>
+        <h3 className="font-semibold mb-2 text-gray-200">{exercise.name}</h3>
         <p className="text-sm text-gray-400 mb-3">{exercise.description}</p>
         
         <div className="flex items-center gap-4 mb-3 text-sm">
           <div className="flex items-center gap-1">
             <Target className="w-4 h-4 text-cyan-400" />
-            <span>{exercise.recommendedSets || 3} sets</span>
+            <span className="text-gray-200">{exercise.recommendedSets || 3} sets</span>
           </div>
           <div className="flex items-center gap-1">
             <Zap className="w-4 h-4 text-purple-400" />
-            <span>{exercise.recommendedReps || "8-12"} reps</span>
+            <span className="text-gray-200">{exercise.recommendedReps || "8-12"} reps</span>
           </div>
         </div>
 
         {exercise.equipment && (
           <div className="flex items-center gap-1 mb-3 text-sm">
             <Award className="w-4 h-4 text-orange-400" />
-            <span>{exercise.equipment}</span>
+            <span className="text-gray-200">{exercise.equipment}</span>
           </div>
         )}
 

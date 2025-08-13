@@ -46,7 +46,7 @@ export const ExerciseSelection = ({
     >
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-2xl font-bold mb-2">Choose Your Exercises</h2>
+          <h2 className="text-2xl font-bold mb-2 text-gray-200">Choose Your Exercises</h2>
           <p className="text-gray-400">
             Selected muscles: {selectedMuscles.join(", ")}
           </p>
@@ -54,13 +54,13 @@ export const ExerciseSelection = ({
         <div className="flex gap-2">
           <button
             onClick={onShowAddMuscleModal}
-            className="bg-slate-800 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-700"
+            className="bg-slate-800 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-700 text-gray-200"
           >
             <Plus className="w-4 h-4" /> Add Muscle
           </button>
           <button
             onClick={onBack}
-            className="bg-slate-800 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-700"
+            className="bg-slate-800 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-700 text-gray-200"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
@@ -83,7 +83,7 @@ export const ExerciseSelection = ({
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => {/* Navigate to step 3 */}}
+            onClick={onContinue}
             className="bg-gradient-to-r from-cyan-500 to-purple-500 px-8 py-3 rounded-lg font-semibold"
           >
             Start Workout ({workoutExercises.length} exercises)

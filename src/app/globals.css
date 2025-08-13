@@ -16,7 +16,7 @@
   }
 
   .hover-nav {
-    @apply hover:text-black;
+    @apply hover:text-cyan-400 transition-colors duration-200;
   }
 
   .btn-hover {

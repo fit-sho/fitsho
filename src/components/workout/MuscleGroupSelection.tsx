@@ -30,7 +30,7 @@ export const MuscleGroupSelection = ({
       className="max-w-4xl mx-auto"
     >
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-2">Select Target Muscle Groups</h2>
+        <h2 className="text-2xl font-bold mb-2 text-gray-200">Select Target Muscle Groups</h2>
         <p className="text-gray-400">Choose the muscles you want to work today</p>
       </div>
 
@@ -49,8 +49,16 @@ export const MuscleGroupSelection = ({
           >
             <div className="text-center">
               <div className="text-3xl mb-2">{muscle.emoji}</div>
-              <h3 className="font-semibold mb-1">{muscle.name}</h3>
-              <p className="text-sm text-gray-400">{muscle.description}</p>
+              <h3 className={`font-semibold mb-1 ${
+                selectedMuscles.includes(muscle.name)
+                  ? "text-white"
+                  : "text-gray-200"
+              }`}>{muscle.name}</h3>
+              <p className={`text-sm ${
+                selectedMuscles.includes(muscle.name)
+                  ? "text-gray-100"
+                  : "text-gray-400"
+              }`}>{muscle.description}</p>
             </div>
           </motion.div>
         ))}
@@ -62,7 +70,7 @@ export const MuscleGroupSelection = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onContinue}
-            className="bg-gradient-to-r from-cyan-500 to-purple-500 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 mx-auto"
+            className="bg-gradient-to-r from-cyan-500 to-purple-500 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 mx-auto text-white"
           >
             Continue to Exercises <ArrowRight className="w-4 h-4" />
           </motion.button>
