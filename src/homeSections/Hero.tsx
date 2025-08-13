@@ -23,22 +23,31 @@ export const Hero = () => {
 
       {/* Floating Particles */}
       <div className="absolute inset-0">
-        {[...Array(8)].map((_, i) => (
+        {[
+          { left: 15, top: 20 },
+          { left: 85, top: 30 },
+          { left: 25, top: 60 },
+          { left: 70, top: 15 },
+          { left: 45, top: 80 },
+          { left: 90, top: 70 },
+          { left: 10, top: 45 },
+          { left: 60, top: 90 },
+        ].map((position, i) => (
           <motion.div
             key={i}
             className="absolute h-2 w-2 rounded-full bg-cyan-400 opacity-15"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${position.left}%`,
+              top: `${position.top}%`,
             }}
             animate={{
               y: [0, -100, 0],
               opacity: [0.1, 0.6, 0.1],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 3 + (i * 0.3),
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: i * 0.4,
             }}
           />
         ))}
