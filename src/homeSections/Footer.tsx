@@ -17,12 +17,12 @@ export const Footer = () => {
           </a>
         </div>
         <nav className="mt-6 flex flex-col gap-6 md:flex-row md:justify-center">
-          <a href="#">About</a>
+          <a href="/about">About</a>
           <a href="/features">Features</a>
-          <a href="#">Customers</a>
-          <a href="#">Pricing</a>
-          <a href="#">Help</a>
-          <a href="#">Careers</a>
+          <a href="/customers">Customers</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/help">Help</a>
+          <a href="/privacy">Privacy & Policy</a>
         </nav>
         <div className="mt-6 flex justify-center gap-6">
           <a href="https://www.instagram.com/ilestarash/">
