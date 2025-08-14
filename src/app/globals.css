@@ -42,4 +42,26 @@
   .textTicker-words {
     @apply px-8 text-2xl font-extrabold tracking-wide text-gray-600;
   }
+
+  /* Animated Background Components */
+  .animated-bg {
+    @apply min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden;
+  }
+
+  .animated-bg-overlay {
+    @apply absolute inset-0 animate-pulse bg-[radial-gradient(ellipse_at_center,rgba(120,119,198,0.3),transparent_50%)];
+  }
+
+  .floating-particles {
+    @apply absolute inset-0;
+  }
+
+  .particle {
+    @apply absolute h-2 w-2 rounded-full bg-cyan-400 opacity-15;
+  }
+
+  /* Content wrapper for pages with animated background */
+  .animated-bg-content {
+    @apply relative z-10;
+  }
 }
