@@ -1,36 +1,40 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { Dumbbell, FileText, TrendingUp, Users, ArrowRight } from "lucide-react";
 
 // Feature card component
 const FeatureCard = ({
   title,
   description,
   icon,
-  color = "bg-indigo-500",
+  index,
 }: {
   title: string;
   description: string;
   icon: React.ReactNode;
-  color?: string;
+  index: number;
 }) => (
-  <div className="overflow-hidden rounded-lg shadow-lg">
-    <div className={`p-6 ${color} text-white`}>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
+    className="group relative overflow-hidden rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300"
+  >
+    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <div className="relative p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-xl font-bold">{title}</h3>
-        <div className="text-white">{icon}</div>
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-purple-500 text-white">
+          {icon}
+        </div>
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <ArrowRight className="h-5 w-5 text-cyan-400" />
+        </div>
       </div>
-      <p className="text-white/90">{description}</p>
+      <h3 className="mb-2 text-xl font-bold text-white">{title}</h3>
+      <p className="text-slate-300 leading-relaxed">{description}</p>
     </div>
-    <div className="bg-white p-4">
-      <Link
-        href="#"
-        className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
-      >
-        Learn more <span aria-hidden="true">&rarr;</span>
-      </Link>
-    </div>
-  </div>
+  </motion.div>
 );
 
 // Testimonial component
@@ -43,194 +47,215 @@ const Testimonial = ({
   author: string;
   role: string;
 }) => (
-  <div className="rounded-lg bg-white p-6 shadow-md">
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.5 }}
+    className="rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-6"
+  >
     <svg
-      className="mb-4 h-8 w-8 text-gray-400"
+      className="mb-4 h-8 w-8 text-cyan-400"
       fill="currentColor"
       viewBox="0 0 24 24"
     >
       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
     </svg>
-    <p className="mb-4 text-gray-600">{quote}</p>
+    <p className="mb-4 text-slate-300 italic">{quote}</p>
     <div>
-      <p className="font-bold">{author}</p>
-      <p className="text-sm text-gray-500">{role}</p>
+      <p className="font-bold text-white">{author}</p>
+      <p className="text-sm text-slate-400">{role}</p>
     </div>
-  </div>
+  </motion.div>
 );
 
 export default function FeaturesPage() {
-  // Feature icons
-  const WorkoutIcon = () => (
-    <svg className="h-10 w-10" fill="currentColor" viewBox="0 0 20 20">
-      <path
-        fillRule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-        clipRule="evenodd"
-      ></path>
-    </svg>
-  );
-
-  const ExerciseIcon = () => (
-    <svg className="h-10 w-10" fill="currentColor" viewBox="0 0 20 20">
-      <path
-        fillRule="evenodd"
-        d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
-        clipRule="evenodd"
-      ></path>
-    </svg>
-  );
-
-  const TemplateIcon = () => (
-    <svg className="h-10 w-10" fill="currentColor" viewBox="0 0 20 20">
-      <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-      <path
-        fillRule="evenodd"
-        d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-        clipRule="evenodd"
-      ></path>
-    </svg>
-  );
-
-  const ProgressIcon = () => (
-    <svg className="h-10 w-10" fill="currentColor" viewBox="0 0 20 20">
-      <path
-        fillRule="evenodd"
-        d="M3 3a1 1 0 000 2h14a1 1 0 100-2H3zm0 6a1 1 0 000 2h9a1 1 0 100-2H3zm0 6a1 1 0 100 2h5a1 1 0 100-2H3z"
-        clipRule="evenodd"
-      ></path>
-    </svg>
-  );
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 animate-pulse bg-[radial-gradient(ellipse_at_center,rgba(120,119,198,0.3),transparent_50%)]"></div>
+      
+      {/* Floating Particles */}
+      <div className="absolute inset-0">
+        {[
+          { left: 15, top: 20 },
+          { left: 85, top: 30 },
+          { left: 25, top: 60 },
+          { left: 70, top: 15 },
+          { left: 45, top: 80 },
+          { left: 90, top: 70 },
+          { left: 10, top: 45 },
+          { left: 60, top: 90 },
+        ].map((position, i) => (
+          <motion.div
+            key={i}
+            className="absolute h-2 w-2 rounded-full bg-cyan-400 opacity-15"
+            style={{
+              left: `${position.left}%`,
+              top: `${position.top}%`,
+            }}
+            animate={{
+              y: [0, -100, 0],
+              opacity: [0.1, 0.6, 0.1],
+            }}
+            transition={{
+              duration: 3 + (i * 0.3),
+              repeat: Infinity,
+              delay: i * 0.4,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Hero section */}
-        <div className="py-16 text-center md:py-24">
-          <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="py-16 text-center md:py-24"
+        >
+          <h1 className="mb-6 text-4xl font-bold bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent md:text-5xl">
             Powerful Features for Fitness Professionals and Enthusiasts
           </h1>
-          <p className="mx-auto max-w-3xl text-xl text-gray-600">
+          <p className="mx-auto max-w-3xl text-xl text-slate-300 leading-relaxed">
             Our comprehensive fitness platform helps trainers manage clients and
             workout plans while enabling fitness enthusiasts to track their
             progress effectively.
           </p>
-          <div className="mt-10">
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/signup"
-              className="mr-4 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-8 py-4 text-base font-medium text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105"
             >
               Get Started Free
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
-              href="/demo"
-              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              href="/workout"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-600 bg-slate-800/50 backdrop-blur-sm px-8 py-4 text-base font-medium text-white hover:bg-slate-700/50 transition-all duration-300"
             >
-              Watch Demo
+              Try Demo
             </Link>
           </div>
-        </div>
+        </motion.div>
 
         {/* Features grid */}
         <div className="py-12">
-          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent"
+          >
             Everything You Need to Succeed
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <FeatureCard
               title="Exercise Library"
               description="Access a comprehensive database of exercises with descriptions and video demonstrations to build effective workout routines."
-              icon={<ExerciseIcon />}
-              color="bg-blue-500"
+              icon={<Dumbbell className="h-6 w-6" />}
+              index={0}
             />
 
             <FeatureCard
               title="Workout Templates"
               description="Create and save customized workout templates with specific exercises, sets, and reps for quick assignment to clients."
-              icon={<TemplateIcon />}
-              color="bg-indigo-500"
+              icon={<FileText className="h-6 w-6" />}
+              index={1}
             />
 
             <FeatureCard
               title="Progress Tracking"
               description="Monitor workout completion, track performance metrics, and visualize improvements over time with detailed analytics."
-              icon={<ProgressIcon />}
-              color="bg-purple-500"
+              icon={<TrendingUp className="h-6 w-6" />}
+              index={2}
             />
 
             <FeatureCard
               title="Client Management"
               description="Efficiently manage client relationships, assign personalized workouts, and provide feedback on their performance."
-              icon={<WorkoutIcon />}
-              color="bg-green-500"
+              icon={<Users className="h-6 w-6" />}
+              index={3}
             />
           </div>
         </div>
 
         {/* How it works section */}
-        <div className="border-t border-gray-200 py-16">
-          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">
+        <div className="border-t border-slate-700/50 py-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent"
+          >
             How It Works
-          </h2>
+          </motion.h2>
 
           <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div className="text-center">
-              <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                <span className="text-2xl font-bold">1</span>
-              </div>
-              <h3 className="mb-2 text-xl font-bold">Create Workouts</h3>
-              <p className="text-gray-600">
-                Build custom workout templates with exercises, sets, and reps
-                tailored to specific goals.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                <span className="text-2xl font-bold">2</span>
-              </div>
-              <h3 className="mb-2 text-xl font-bold">Assign to Clients</h3>
-              <p className="text-gray-600">
-                Quickly assign workout plans to clients or schedule them for
-                yourself.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                <span className="text-2xl font-bold">3</span>
-              </div>
-              <h3 className="mb-2 text-xl font-bold">Track Progress</h3>
-              <p className="text-gray-600">
-                Monitor completion, track performance metrics, and visualize
-                improvements over time.
-              </p>
-            </div>
+            {[
+              {
+                step: "1",
+                title: "Create Workouts",
+                description: "Build custom workout templates with exercises, sets, and reps tailored to specific goals."
+              },
+              {
+                step: "2", 
+                title: "Assign to Clients",
+                description: "Quickly assign workout plans to clients or schedule them for yourself."
+              },
+              {
+                step: "3",
+                title: "Track Progress", 
+                description: "Monitor completion, track performance metrics, and visualize improvements over time."
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                className="text-center"
+              >
+                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 text-white shadow-lg">
+                  <span className="text-2xl font-bold">{item.step}</span>
+                </div>
+                <h3 className="mb-2 text-xl font-bold text-white">{item.title}</h3>
+                <p className="text-slate-300 leading-relaxed">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
 
         {/* CTA section */}
-        <div className="border-t border-gray-200 py-16">
-          <div className="overflow-hidden rounded-xl bg-indigo-700 shadow-xl">
+        <div className="border-t border-slate-700/50 py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="overflow-hidden rounded-xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 backdrop-blur-sm border border-slate-600/50 shadow-xl"
+          >
             <div className="px-6 py-12 text-center md:flex md:items-center md:justify-between md:p-12 md:text-left">
               <div>
-                <h2 className="text-2xl font-bold text-white md:text-3xl">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent md:text-3xl">
                   Ready to elevate your fitness journey?
                 </h2>
-                <p className="mt-2 text-lg text-indigo-100 md:mt-4">
+                <p className="mt-2 text-lg text-slate-300 md:mt-4">
                   Join thousands of trainers and fitness enthusiasts today.
                 </p>
               </div>
               <div className="mt-6 md:mt-0">
                 <Link
                   href="/signup"
-                  className="inline-block rounded-md border border-transparent bg-white px-6 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+                  className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-8 py-4 text-base font-medium text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105"
                 >
                   Get Started Free
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
