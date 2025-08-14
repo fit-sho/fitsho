@@ -43,43 +43,35 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <div className="animated-bg">
       {/* Animated Background */}
-      <div className="absolute inset-0 animate-pulse bg-[radial-gradient(ellipse_at_center,rgba(120,119,198,0.3),transparent_50%)]"></div>
+      <div className="animated-bg-overlay"></div>
       
       {/* Floating Particles */}
-      <div className="absolute inset-0">
-        {[
-          { left: 15, top: 20 },
-          { left: 85, top: 30 },
-          { left: 25, top: 60 },
-          { left: 70, top: 15 },
-          { left: 45, top: 80 },
-          { left: 90, top: 70 },
-          { left: 10, top: 45 },
-          { left: 60, top: 90 },
-        ].map((position, i) => (
+      <div className="floating-particles">
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute h-2 w-2 rounded-full bg-cyan-400 opacity-15"
+            className="particle"
             style={{
-              left: `${position.left}%`,
-              top: `${position.top}%`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -100, 0],
-              opacity: [0.1, 0.6, 0.1],
+              y: [-20, 20, -20],
+              x: [-10, 10, -10],
             }}
             transition={{
-              duration: 3 + (i * 0.3),
+              duration: 3 + Math.random() * 2,
               repeat: Infinity,
-              delay: i * 0.4,
+              ease: "easeInOut",
             }}
           />
         ))}
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      {/* Main Content */}
+      <div className="animated-bg-content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -5,12 +5,12 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden flex items-center justify-center">
+    <div className="animated-bg">
       {/* Animated Background */}
-      <div className="absolute inset-0 animate-pulse bg-[radial-gradient(ellipse_at_center,rgba(120,119,198,0.3),transparent_50%)]"></div>
+      <div className="animated-bg-overlay"></div>
       
       {/* Floating Particles */}
-      <div className="absolute inset-0">
+      <div className="floating-particles">
         {[
           { left: 15, top: 20 },
           { left: 85, top: 30 },
@@ -41,7 +41,7 @@ export default function NotFound() {
         ))}
       </div>
 
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <div className="animated-bg-content z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         {/* 404 Icon */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
