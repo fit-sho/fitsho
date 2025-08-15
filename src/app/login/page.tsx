@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient, SignInData } from "@/lib/client-auth";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import { Settings, Dumbbell, BarChart3, LogIn, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState<SignInData>({
@@ -15,6 +16,10 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [showAdminChoice, setShowAdminChoice] = useState(false);
+  const [adminUser, setAdminUser] = useState<any>(null);
+  const [showClientChoice, setShowClientChoice] = useState(false);
+  const [clientUser, setClientUser] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,9 +27,20 @@ export default function LoginPage() {
       try {
         const user = await authClient.getCurrentUser();
         if (user) {
-          const redirectPath = user.role === "ADMIN" ? "/admin" : "/dashboard";
-          router.push(redirectPath);
-          return;
+          if (user.role === "ADMIN") {
+            setAdminUser(user);
+            setShowAdminChoice(true);
+            setCheckingAuth(false);
+            return;
+          } else if (user.role === "CLIENT" || user.role === "TRAINER") {
+            setClientUser(user);
+            setShowClientChoice(true);
+            setCheckingAuth(false);
+            return;
+          } else {
+            router.push("/dashboard");
+            return;
+          }
         }
       } catch (error) {
       } finally {
@@ -60,14 +76,28 @@ export default function LoginPage() {
       // Dispatch custom event to notify navbar of authentication change
       window.dispatchEvent(new CustomEvent("authStateChanged"));
 
-      const redirectPath =
-        result.user.role === "ADMIN" ? "/admin" : "/dashboard";
-      router.push(redirectPath);
+      if (result.user.role === "ADMIN") {
+        setAdminUser(result.user);
+        setShowAdminChoice(true);
+        setLoading(false);
+        return;
+      } else if (result.user.role === "CLIENT" || result.user.role === "TRAINER") {
+        setClientUser(result.user);
+        setShowClientChoice(true);
+        setLoading(false);
+        return;
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err: any) {
       setError(err.message || "An error occurred during login");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAdminChoice = (path: string) => {
+    router.push(path);
   };
 
   if (checkingAuth) {
@@ -82,25 +112,177 @@ export default function LoginPage() {
     );
   }
 
+  // Show client choice modal
+  if (showClientChoice && clientUser) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="w-full max-w-lg">
+          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-blue-600">
+                <Dumbbell className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Welcome Back!
+              </h2>
+              <p className="mt-2 text-gray-600">
+                Ready to crush your fitness goals?
+              </p>
+            </div>
+
+            {/* Choice Cards */}
+            <div className="space-y-4">
+              {/* Workout */}
+              <button
+                onClick={() => handleAdminChoice("/workout")}
+                className="w-full p-6 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 hover:from-emerald-500/20 hover:to-blue-500/20 border border-emerald-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
+                      <Dumbbell className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
+                      Start Workout
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      Create and track your workout session
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              {/* Personal Dashboard */}
+              <button
+                onClick={() => handleAdminChoice("/dashboard")}
+                className="w-full p-6 bg-gradient-to-r from-orange-500/10 to-pink-500/10 hover:from-orange-500/20 hover:to-pink-500/20 border border-orange-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center">
+                      <BarChart3 className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                      Dashboard
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      View your progress and workout history
+                    </p>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show admin choice modal
+  if (showAdminChoice && adminUser) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="w-full max-w-lg">
+          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-purple-600">
+                <Settings className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Welcome Back, Admin!
+              </h2>
+              <p className="mt-2 text-gray-600">
+                Where would you like to go today?
+              </p>
+            </div>
+
+            {/* Choice Cards */}
+            <div className="space-y-4">
+              {/* Admin Dashboard */}
+              <button
+                onClick={() => handleAdminChoice("/admin")}
+                className="w-full p-6 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 hover:from-purple-500/20 hover:to-cyan-500/20 border border-purple-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                      <Settings className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                      Admin Dashboard
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      Manage exercises, templates, and system settings
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              {/* Workout */}
+              <button
+                onClick={() => handleAdminChoice("/workout")}
+                className="w-full p-6 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 hover:from-emerald-500/20 hover:to-blue-500/20 border border-emerald-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
+                      <Dumbbell className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
+                      Start Workout
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      Create and track your personal workout session
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              {/* Personal Dashboard */}
+              <button
+                onClick={() => handleAdminChoice("/dashboard")}
+                className="w-full p-6 bg-gradient-to-r from-orange-500/10 to-pink-500/10 hover:from-orange-500/20 hover:to-pink-500/20 border border-orange-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center">
+                      <BarChart3 className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                      Personal Dashboard
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      View your personal progress and workout history
+                    </p>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-600">
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-              />
-            </svg>
+            <LogIn className="h-8 w-8 text-white" />
           </div>
           <h2 className="mb-2 text-3xl font-bold text-gray-900">
             Welcome Back
@@ -117,17 +299,7 @@ export default function LoginPage() {
             <div className="mb-6 rounded-md border-l-4 border-red-400 bg-red-50 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-red-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <AlertCircle className="h-5 w-5 text-red-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-sm text-red-700">{error}</p>

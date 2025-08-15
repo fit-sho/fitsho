@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient, SignUpData } from "@/lib/client-auth";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import { UserPlus, AlertCircle, CheckCircle } from "lucide-react";
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState<SignUpData>({
@@ -27,8 +28,7 @@ export default function SignUpPage() {
       try {
         const user = await authClient.getCurrentUser();
         if (user) {
-          const redirectPath = user.role === "ADMIN" ? "/admin" : "/dashboard";
-          router.push(redirectPath);
+          router.push("/");
           return;
         }
       } catch (error) {
@@ -103,7 +103,7 @@ export default function SignUpPage() {
       window.dispatchEvent(new CustomEvent("authStateChanged"));
 
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/");
       }, 1500);
     } catch (err: any) {
       setError(err.message || "An error occurred during signup");
@@ -130,19 +130,7 @@ export default function SignUpPage() {
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-600">
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 10V3L4 14h7v7l9-11h-7z"
-              />
-            </svg>
+            <UserPlus className="h-8 w-8 text-white" />
           </div>
           <h2 className="mb-2 text-3xl font-bold text-gray-900">Join FitSho</h2>
           <p className="text-gray-600">Start your fitness journey today</p>
@@ -155,17 +143,7 @@ export default function SignUpPage() {
             <div className="mb-6 rounded-md border-l-4 border-red-400 bg-red-50 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-red-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <AlertCircle className="h-5 w-5 text-red-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-sm text-red-700">{error}</p>
@@ -178,17 +156,7 @@ export default function SignUpPage() {
             <div className="mb-6 rounded-md border-l-4 border-green-400 bg-green-50 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-green-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <CheckCircle className="h-5 w-5 text-green-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-sm text-green-700">{success}</p>
