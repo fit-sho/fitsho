@@ -45,7 +45,7 @@ export const Hero = () => {
               opacity: [0.1, 0.6, 0.1],
             }}
             transition={{
-              duration: 3 + (i * 0.3),
+              duration: 3 + i * 0.3,
               repeat: Infinity,
               delay: i * 0.4,
             }}

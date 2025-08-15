@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Save, X, Plus, Trash2, Search, GripVertical } from "lucide-react";
-import { 
-  WorkoutTemplate, 
-  Exercise, 
+import {
+  WorkoutTemplate,
+  Exercise,
   CreateTemplateData,
-  MUSCLE_GROUP_LABELS 
+  MUSCLE_GROUP_LABELS,
 } from "./types";
 
 interface WorkoutTemplateFormProps {
@@ -26,33 +26,37 @@ interface TemplateExercise {
   orderIndex: number;
 }
 
-export const WorkoutTemplateForm = ({ 
-  template, 
-  exercises, 
-  onSave, 
-  onCancel, 
-  isLoading = false 
+export const WorkoutTemplateForm = ({
+  template,
+  exercises,
+  onSave,
+  onCancel,
+  isLoading = false,
 }: WorkoutTemplateFormProps) => {
   const [formData, setFormData] = useState({
     name: template?.name || "",
     description: template?.description || "",
   });
 
-  const [templateExercises, setTemplateExercises] = useState<TemplateExercise[]>([]);
+  const [templateExercises, setTemplateExercises] = useState<
+    TemplateExercise[]
+  >([]);
   const [showExerciseModal, setShowExerciseModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (template?.templateExercises) {
-      const mappedExercises = template.templateExercises.map(te => ({
+      const mappedExercises = template.templateExercises.map((te) => ({
         exerciseId: te.exerciseId,
         exercise: te.exercise,
         sets: te.sets,
         reps: te.reps,
         orderIndex: te.orderIndex,
       }));
-      setTemplateExercises(mappedExercises.sort((a, b) => a.orderIndex - b.orderIndex));
+      setTemplateExercises(
+        mappedExercises.sort((a, b) => a.orderIndex - b.orderIndex)
+      );
     }
   }, [template]);
 
@@ -73,7 +77,7 @@ export const WorkoutTemplateForm = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     const templateData: CreateTemplateData = {
@@ -99,24 +103,30 @@ export const WorkoutTemplateForm = ({
       exerciseId: exercise.id,
       exercise,
       sets: exercise.recommendedSets || 4,
-      reps: parseInt(exercise.recommendedReps?.split('-')[0] || "8"),
+      reps: parseInt(exercise.recommendedReps?.split("-")[0] || "8"),
       orderIndex: templateExercises.length,
     };
 
-    setTemplateExercises(prev => [...prev, newTemplateExercise]);
+    setTemplateExercises((prev) => [...prev, newTemplateExercise]);
     setShowExerciseModal(false);
   };
 
   const removeExercise = (exerciseId: string) => {
-    setTemplateExercises(prev => 
-      prev.filter(te => te.exerciseId !== exerciseId)
+    setTemplateExercises((prev) =>
+      prev
+        .filter((te) => te.exerciseId !== exerciseId)
         .map((te, index) => ({ ...te, orderIndex: index }))
     );
   };
 
-  const updateExercise = (exerciseId: string, updates: Partial<TemplateExercise>) => {
-    setTemplateExercises(prev =>
-      prev.map(te => te.exerciseId === exerciseId ? { ...te, ...updates } : te)
+  const updateExercise = (
+    exerciseId: string,
+    updates: Partial<TemplateExercise>
+  ) => {
+    setTemplateExercises((prev) =>
+      prev.map((te) =>
+        te.exerciseId === exerciseId ? { ...te, ...updates } : te
+      )
     );
   };
 
@@ -124,19 +134,20 @@ export const WorkoutTemplateForm = ({
     const newExercises = [...templateExercises];
     const [movedExercise] = newExercises.splice(fromIndex, 1);
     newExercises.splice(toIndex, 0, movedExercise);
-    
+
     // Update order indices
     const reorderedExercises = newExercises.map((te, index) => ({
       ...te,
       orderIndex: index,
     }));
-    
+
     setTemplateExercises(reorderedExercises);
   };
 
-  const filteredExercises = exercises.filter(exercise =>
-    exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    !templateExercises.some(te => te.exerciseId === exercise.id)
+  const filteredExercises = exercises.filter(
+    (exercise) =>
+      exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      !templateExercises.some((te) => te.exerciseId === exercise.id)
   );
 
   return (
@@ -144,44 +155,57 @@ export const WorkoutTemplateForm = ({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6"
+        className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm"
       >
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-2xl font-bold text-transparent">
             {template ? "Edit Workout Template" : "Create New Template"}
           </h2>
           <button
             onClick={onCancel}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-400 transition-colors hover:text-white"
           >
-            <X className="w-6 h-6" />
+            <X className="h-6 w-6" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-2">Template Name *</label>
+              <label className="mb-2 block text-sm font-medium">
+                Template Name *
+              </label>
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                className={`w-full px-3 py-2 bg-slate-700 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, name: e.target.value }))
+                }
+                className={`w-full rounded-lg border bg-slate-700 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-cyan-500 ${
                   errors.name ? "border-red-500" : "border-slate-600"
                 }`}
                 placeholder="e.g., Upper Body Strength"
               />
-              {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-400">{errors.name}</p>
+              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Description</label>
+              <label className="mb-2 block text-sm font-medium">
+                Description
+              </label>
               <input
                 type="text"
                 value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+                className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-cyan-500"
                 placeholder="Brief description of the workout"
               />
             </div>
@@ -189,24 +213,28 @@ export const WorkoutTemplateForm = ({
 
           {/* Exercises Section */}
           <div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="mb-4 flex items-center justify-between">
               <label className="block text-sm font-medium">Exercises *</label>
               <button
                 type="button"
                 onClick={() => setShowExerciseModal(true)}
-                className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2 font-medium text-white transition-opacity hover:opacity-90"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="h-4 w-4" />
                 Add Exercise
               </button>
             </div>
 
-            {errors.exercises && <p className="text-red-400 text-sm mb-3">{errors.exercises}</p>}
+            {errors.exercises && (
+              <p className="mb-3 text-sm text-red-400">{errors.exercises}</p>
+            )}
 
             {templateExercises.length === 0 ? (
-              <div className="border-2 border-dashed border-slate-600 rounded-lg p-8 text-center">
-                <p className="text-gray-400 mb-2">No exercises added yet</p>
-                <p className="text-sm text-gray-500">Click "Add Exercise" to get started</p>
+              <div className="rounded-lg border-2 border-dashed border-slate-600 p-8 text-center">
+                <p className="mb-2 text-gray-400">No exercises added yet</p>
+                <p className="text-sm text-gray-500">
+                  Click "Add Exercise" to get started
+                </p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -215,62 +243,76 @@ export const WorkoutTemplateForm = ({
                     key={templateExercise.exerciseId}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-slate-700/50 border border-slate-600 rounded-lg p-4"
+                    className="rounded-lg border border-slate-600 bg-slate-700/50 p-4"
                   >
                     <div className="flex items-center gap-4">
                       <div className="cursor-move text-gray-400">
-                        <GripVertical className="w-5 h-5" />
+                        <GripVertical className="h-5 w-5" />
                       </div>
 
                       <div className="flex-1">
-                        <h4 className="font-medium mb-1">{templateExercise.exercise.name}</h4>
+                        <h4 className="mb-1 font-medium">
+                          {templateExercise.exercise.name}
+                        </h4>
                         <div className="flex flex-wrap gap-1">
-                          {templateExercise.exercise.muscleGroups.slice(0, 3).map((muscle) => (
-                            <span
-                              key={muscle}
-                              className="px-2 py-1 bg-slate-600 text-xs rounded-full"
-                            >
-                              {MUSCLE_GROUP_LABELS[muscle]}
-                            </span>
-                          ))}
+                          {templateExercise.exercise.muscleGroups
+                            .slice(0, 3)
+                            .map((muscle) => (
+                              <span
+                                key={muscle}
+                                className="rounded-full bg-slate-600 px-2 py-1 text-xs"
+                              >
+                                {MUSCLE_GROUP_LABELS[muscle]}
+                              </span>
+                            ))}
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3">
                         <div>
-                          <label className="block text-xs text-gray-400 mb-1">Sets</label>
+                          <label className="mb-1 block text-xs text-gray-400">
+                            Sets
+                          </label>
                           <input
                             type="number"
                             min="1"
                             max="10"
                             value={templateExercise.sets}
-                            onChange={(e) => updateExercise(templateExercise.exerciseId, { 
-                              sets: parseInt(e.target.value) || 1 
-                            })}
-                            className="w-16 px-2 py-1 bg-slate-600 border border-slate-500 rounded text-center text-sm"
+                            onChange={(e) =>
+                              updateExercise(templateExercise.exerciseId, {
+                                sets: parseInt(e.target.value) || 1,
+                              })
+                            }
+                            className="w-16 rounded border border-slate-500 bg-slate-600 px-2 py-1 text-center text-sm"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-xs text-gray-400 mb-1">Reps</label>
+                          <label className="mb-1 block text-xs text-gray-400">
+                            Reps
+                          </label>
                           <input
                             type="number"
                             min="1"
                             max="50"
                             value={templateExercise.reps}
-                            onChange={(e) => updateExercise(templateExercise.exerciseId, { 
-                              reps: parseInt(e.target.value) || 1 
-                            })}
-                            className="w-16 px-2 py-1 bg-slate-600 border border-slate-500 rounded text-center text-sm"
+                            onChange={(e) =>
+                              updateExercise(templateExercise.exerciseId, {
+                                reps: parseInt(e.target.value) || 1,
+                              })
+                            }
+                            className="w-16 rounded border border-slate-500 bg-slate-600 px-2 py-1 text-center text-sm"
                           />
                         </div>
 
                         <button
                           type="button"
-                          onClick={() => removeExercise(templateExercise.exerciseId)}
-                          className="text-red-400 hover:text-red-300 p-1"
+                          onClick={() =>
+                            removeExercise(templateExercise.exerciseId)
+                          }
+                          className="p-1 text-red-400 hover:text-red-300"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
                     </div>
@@ -281,11 +323,11 @@ export const WorkoutTemplateForm = ({
           </div>
 
           {/* Form Actions */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-700">
+          <div className="flex justify-end gap-3 border-t border-slate-700 pt-4">
             <button
               type="button"
               onClick={onCancel}
-              className="px-6 py-2 bg-slate-700 text-gray-300 rounded-lg hover:bg-slate-600 transition-colors"
+              className="rounded-lg bg-slate-700 px-6 py-2 text-gray-300 transition-colors hover:bg-slate-600"
             >
               Cancel
             </button>
@@ -294,12 +336,12 @@ export const WorkoutTemplateForm = ({
               disabled={isLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-lg font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 px-6 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
               ) : (
-                <Save className="w-4 h-4" />
+                <Save className="h-4 w-4" />
               )}
               {template ? "Update Template" : "Create Template"}
             </motion.button>
@@ -314,60 +356,62 @@ export const WorkoutTemplateForm = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
             onClick={() => setShowExerciseModal(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-slate-800 rounded-xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto"
+              className="max-h-[80vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-slate-800 p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-6">
+              <div className="mb-6 flex items-center justify-between">
                 <h3 className="text-xl font-bold">Add Exercise to Template</h3>
                 <button
                   onClick={() => setShowExerciseModal(false)}
                   className="text-gray-400 hover:text-white"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="h-6 w-6" />
                 </button>
               </div>
 
               <div className="mb-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                   <input
                     type="text"
                     placeholder="Search exercises..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-slate-600 bg-slate-700 py-2 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-cyan-500"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+              <div className="grid max-h-96 grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 lg:grid-cols-3">
                 {filteredExercises.map((exercise) => (
                   <motion.div
                     key={exercise.id}
                     whileHover={{ scale: 1.02 }}
                     onClick={() => addExercise(exercise)}
-                    className="bg-slate-700/50 border border-slate-600 rounded-lg p-4 cursor-pointer hover:border-slate-500 transition-colors"
+                    className="cursor-pointer rounded-lg border border-slate-600 bg-slate-700/50 p-4 transition-colors hover:border-slate-500"
                   >
-                    <h4 className="font-medium mb-2">{exercise.name}</h4>
-                    <p className="text-sm text-gray-400 mb-2 line-clamp-2">{exercise.description}</p>
+                    <h4 className="mb-2 font-medium">{exercise.name}</h4>
+                    <p className="mb-2 line-clamp-2 text-sm text-gray-400">
+                      {exercise.description}
+                    </p>
                     <div className="flex flex-wrap gap-1">
                       {exercise.muscleGroups.slice(0, 2).map((muscle) => (
                         <span
                           key={muscle}
-                          className="px-2 py-1 bg-slate-600 text-xs rounded-full"
+                          className="rounded-full bg-slate-600 px-2 py-1 text-xs"
                         >
                           {MUSCLE_GROUP_LABELS[muscle]}
                         </span>
                       ))}
                       {exercise.muscleGroups.length > 2 && (
-                        <span className="px-2 py-1 bg-slate-600 text-xs rounded-full">
+                        <span className="rounded-full bg-slate-600 px-2 py-1 text-xs">
                           +{exercise.muscleGroups.length - 2}
                         </span>
                       )}
@@ -377,10 +421,12 @@ export const WorkoutTemplateForm = ({
               </div>
 
               {filteredExercises.length === 0 && (
-                <div className="text-center py-8">
+                <div className="py-8 text-center">
                   <p className="text-gray-400">No exercises found</p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {searchTerm ? "Try a different search term" : "All exercises are already added"}
+                  <p className="mt-1 text-sm text-gray-500">
+                    {searchTerm
+                      ? "Try a different search term"
+                      : "All exercises are already added"}
                   </p>
                 </div>
               )}

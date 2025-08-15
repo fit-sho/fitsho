@@ -47,7 +47,7 @@ export default function EditExercisePage() {
       });
 
       if (response.ok) {
-        router.push('/admin/exercises');
+        router.push("/admin/exercises");
       } else {
         console.error("Failed to update exercise");
       }
@@ -58,7 +58,7 @@ export default function EditExercisePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <AnimatedBackground />
         <div className="relative z-10 text-white">Loading...</div>
       </div>
@@ -67,7 +67,7 @@ export default function EditExercisePage() {
 
   if (!exercise) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <AnimatedBackground />
         <div className="relative z-10 text-white">Exercise not found</div>
       </div>
@@ -75,23 +75,23 @@ export default function EditExercisePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AnimatedBackground />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
+
+      <div className="container relative z-10 mx-auto px-4 py-8">
+        <div className="mb-8 flex items-center gap-4">
           <button
-            onClick={() => router.push('/admin/exercises')}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-gray-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200"
+            onClick={() => router.push("/admin/exercises")}
+            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-gray-300 backdrop-blur-sm transition-all duration-200 hover:bg-slate-700/50 hover:text-white"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="h-4 w-4" />
             Back to Exercises
           </button>
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent">
               Edit Exercise
             </h1>
-            <p className="text-gray-400 mt-1">
+            <p className="mt-1 text-gray-400">
               Update exercise details and configuration
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function EditExercisePage() {
         <ExerciseForm
           exercise={exercise}
           onSave={handleUpdateExercise}
-          onCancel={() => router.push('/admin/exercises')}
+          onCancel={() => router.push("/admin/exercises")}
           isLoading={false}
         />
       </div>

@@ -16,7 +16,7 @@
   }
 
   .hover-nav {
-    @apply hover:text-cyan-400 transition-colors duration-200;
+    @apply transition-colors duration-200 hover:text-cyan-400;
   }
 
   .btn-hover {
@@ -45,7 +45,7 @@
 
   /* Animated Background Components */
   .animated-bg {
-    @apply min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden;
+    @apply relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900;
   }
 
   .animated-bg-overlay {

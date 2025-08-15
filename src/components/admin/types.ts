@@ -71,25 +71,25 @@ export interface CreateTemplateData {
 
 export const DIFFICULTY_OPTIONS = [
   "Beginner",
-  "Intermediate", 
-  "Advanced"
+  "Intermediate",
+  "Advanced",
 ] as const;
 
 export const EQUIPMENT_OPTIONS = [
   "Barbell",
-  "Dumbbell", 
+  "Dumbbell",
   "Bodyweight",
   "Machine",
   "Cable",
   "Kettlebell",
-  "Resistance Band"
+  "Resistance Band",
 ] as const;
 
 export const MUSCLE_GROUP_OPTIONS = Object.values(MuscleGroup);
 
 export const MUSCLE_GROUP_LABELS = {
   [MuscleGroup.CHEST]: "Chest",
-  [MuscleGroup.BACK]: "Back", 
+  [MuscleGroup.BACK]: "Back",
   [MuscleGroup.SHOULDERS]: "Shoulders",
   [MuscleGroup.BICEPS]: "Biceps",
   [MuscleGroup.TRICEPS]: "Triceps",

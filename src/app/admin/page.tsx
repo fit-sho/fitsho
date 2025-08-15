@@ -15,7 +15,7 @@ export default function AdminPage() {
     const checkAdminAuth = async () => {
       try {
         const currentUser = await authClient.getCurrentUser();
-        
+
         if (!currentUser) {
           router.push("/login");
           return;
@@ -44,9 +44,9 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-slate-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-400 mx-auto mb-4"></div>
+          <div className="mx-auto mb-4 h-32 w-32 animate-spin rounded-full border-b-2 border-cyan-400"></div>
           <p className="text-gray-400">Verifying admin access...</p>
         </div>
       </div>
@@ -55,11 +55,13 @@ export default function AdminPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-slate-900">
         <div className="text-center">
-          <div className="bg-red-500/20 border border-red-500 rounded-lg p-6 max-w-md">
-            <h2 className="text-red-400 text-xl font-bold mb-2">Access Denied</h2>
-            <p className="text-gray-300 mb-4">{error}</p>
+          <div className="max-w-md rounded-lg border border-red-500 bg-red-500/20 p-6">
+            <h2 className="mb-2 text-xl font-bold text-red-400">
+              Access Denied
+            </h2>
+            <p className="mb-4 text-gray-300">{error}</p>
             <p className="text-sm text-gray-400">Redirecting to dashboard...</p>
           </div>
         </div>

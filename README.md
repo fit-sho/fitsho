@@ -9,6 +9,7 @@ The platform empowers trainers to create sophisticated workout templates with de
 ## Key Features
 
 ### 🏋️ Advanced Workout System
+
 - **Dynamic Muscle Group Selection**: Start with one muscle group, seamlessly add more during workout creation
 - **Visual Exercise Library**: High-quality exercise images from Unsplash with detailed metadata
 - **Smart Recommendations**: AI-powered set/rep suggestions (e.g., "4×8-12", "3×to failure")
@@ -16,18 +17,21 @@ The platform empowers trainers to create sophisticated workout templates with de
 - **Equipment & Difficulty Indicators**: Visual badges for required equipment and difficulty levels
 
 ### 🎨 Modern UI/UX
+
 - **Futuristic Design**: Glassmorphism effects with animated background elements
 - **Responsive Interface**: Optimized for desktop, tablet, and mobile devices
 - **Interactive Animations**: Framer Motion animations throughout the application
 - **Dark Theme**: Modern dark slate color scheme with cyan/purple gradients
 
 ### 🔐 Secure Authentication & Authorization
+
 - **JWT-Based Authentication**: HTTP-only cookies for enhanced security
 - **Role-Based Access Control**: Separate interfaces for Clients, Trainers, and Admins
 - **Admin Panel**: Comprehensive management dashboard for exercise and template administration
 - **Password Security**: Bcrypt hashing with secure password reset functionality
 
 ### 📊 Comprehensive Tracking
+
 - **Workout Logging**: Detailed session recording with notes and observations
 - **Progress Monitoring**: Visual representation of performance metrics over time
 - **Exercise Notes**: Per-exercise form cues and personal observations
@@ -36,6 +40,7 @@ The platform empowers trainers to create sophisticated workout templates with de
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 14 with TypeScript
 - **Styling**: Tailwind CSS with custom glassmorphic theme
 - **Animations**: Framer Motion for smooth interactions
@@ -43,12 +48,14 @@ The platform empowers trainers to create sophisticated workout templates with de
 - **State Management**: React Context API and custom hooks
 
 ### Backend
+
 - **Database**: MongoDB with Prisma ORM
 - **Authentication**: Custom JWT implementation with HTTP-only cookies
 - **API**: Next.js API routes with proper authentication middleware
 - **Security**: bcryptjs for password hashing, role-based access control
 
 ### Development
+
 - **Language**: TypeScript for type safety
 - **Deployment**: Vercel-ready with environment configuration
 - **Database Hosting**: MongoDB Atlas compatible
@@ -56,17 +63,20 @@ The platform empowers trainers to create sophisticated workout templates with de
 ## Architecture Highlights
 
 ### Database Design
+
 - **MongoDB Collections**: Users, Exercises, Workout Templates, Workout Sessions
 - **Prisma Schema**: Type-safe database operations with camelCase field naming
 - **Data Relationships**: Efficient referencing between users, templates, and workout sessions
 
 ### Security Implementation
+
 - **Row-Level Security**: Role-based access control at the database level
 - **JWT Tokens**: Secure authentication with HTTP-only cookie storage
 - **Password Hashing**: Industry-standard bcrypt implementation
 - **Admin Protection**: Multi-layer authorization for administrative functions
 
 ### User Experience Flow
+
 1. **Authentication**: Secure signup/login with role selection (Client/Trainer/Admin)
 2. **Workout Creation**: Dynamic muscle group selection → Exercise library browsing → Template building
 3. **Exercise Selection**: Visual cards with images, difficulty badges, and equipment indicators

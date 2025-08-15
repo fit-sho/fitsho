@@ -3,7 +3,14 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Plus, Dumbbell, FileText, BarChart3, Users, ArrowRight } from "lucide-react";
+import {
+  Plus,
+  Dumbbell,
+  FileText,
+  BarChart3,
+  Users,
+  ArrowRight,
+} from "lucide-react";
 import { Exercise, WorkoutTemplate } from "./types";
 import { AnimatedBackground } from "../workout/AnimatedBackground";
 
@@ -20,10 +27,7 @@ export const AdminDashboard = () => {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      await Promise.all([
-        loadExercises(),
-        loadTemplates(),
-      ]);
+      await Promise.all([loadExercises(), loadTemplates()]);
     } catch (error) {
       console.error("Error loading admin data:", error);
     } finally {
@@ -56,12 +60,12 @@ export const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AnimatedBackground />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
+
+      <div className="container relative z-10 mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">
+          <h1 className="mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-4xl font-bold text-transparent">
             Admin Dashboard
           </h1>
           <p className="text-gray-400">
@@ -70,18 +74,20 @@ export const AdminDashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6"
+            className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Total Exercises</p>
-                <p className="text-2xl font-bold text-cyan-400">{exercises.length}</p>
+                <p className="text-sm text-gray-400">Total Exercises</p>
+                <p className="text-2xl font-bold text-cyan-400">
+                  {exercises.length}
+                </p>
               </div>
-              <Dumbbell className="w-8 h-8 text-cyan-400" />
+              <Dumbbell className="h-8 w-8 text-cyan-400" />
             </div>
           </motion.div>
 
@@ -89,14 +95,16 @@ export const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6"
+            className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Workout Templates</p>
-                <p className="text-2xl font-bold text-purple-400">{templates.length}</p>
+                <p className="text-sm text-gray-400">Workout Templates</p>
+                <p className="text-2xl font-bold text-purple-400">
+                  {templates.length}
+                </p>
               </div>
-              <FileText className="w-8 h-8 text-purple-400" />
+              <FileText className="h-8 w-8 text-purple-400" />
             </div>
           </motion.div>
 
@@ -104,14 +112,14 @@ export const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6"
+            className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Total Users</p>
+                <p className="text-sm text-gray-400">Total Users</p>
                 <p className="text-2xl font-bold text-green-400">0</p>
               </div>
-              <Users className="w-8 h-8 text-green-400" />
+              <Users className="h-8 w-8 text-green-400" />
             </div>
           </motion.div>
 
@@ -119,44 +127,46 @@ export const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6"
+            className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Recent Activity</p>
+                <p className="text-sm text-gray-400">Recent Activity</p>
                 <p className="text-2xl font-bold text-yellow-400">0</p>
               </div>
-              <BarChart3 className="w-8 h-8 text-yellow-400" />
+              <BarChart3 className="h-8 w-8 text-yellow-400" />
             </div>
           </motion.div>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6"
+            className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm"
           >
-            <h3 className="text-xl font-bold text-white mb-4">Exercise Management</h3>
-            <p className="text-gray-400 mb-6">
+            <h3 className="mb-4 text-xl font-bold text-white">
+              Exercise Management
+            </h3>
+            <p className="mb-6 text-gray-400">
               Create, edit, and manage exercises in your fitness library.
             </p>
             <div className="flex gap-3">
               <button
-                onClick={() => router.push('/admin/exercises/create')}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-lg text-white font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all duration-200"
+                onClick={() => router.push("/admin/exercises/create")}
+                className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 px-4 py-2 font-medium text-white transition-all duration-200 hover:from-cyan-600 hover:to-cyan-700"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="h-4 w-4" />
                 Create Exercise
               </button>
               <button
-                onClick={() => router.push('/admin/exercises')}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-700 rounded-lg text-gray-300 hover:bg-slate-600 hover:text-white transition-all duration-200"
+                onClick={() => router.push("/admin/exercises")}
+                className="flex items-center gap-2 rounded-lg bg-slate-700 px-4 py-2 text-gray-300 transition-all duration-200 hover:bg-slate-600 hover:text-white"
               >
-                <Dumbbell className="w-4 h-4" />
-                <ArrowRight className="w-4 h-4" />
+                <Dumbbell className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" />
                 View All
               </button>
             </div>
@@ -166,26 +176,28 @@ export const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6"
+            className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm"
           >
-            <h3 className="text-xl font-bold text-white mb-4">Template Management</h3>
-            <p className="text-gray-400 mb-6">
+            <h3 className="mb-4 text-xl font-bold text-white">
+              Template Management
+            </h3>
+            <p className="mb-6 text-gray-400">
               Build and manage workout templates for your users.
             </p>
             <div className="flex gap-3">
               <button
-                onClick={() => router.push('/admin/templates/create')}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg text-white font-medium hover:from-purple-600 hover:to-purple-700 transition-all duration-200"
+                onClick={() => router.push("/admin/templates/create")}
+                className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 px-4 py-2 font-medium text-white transition-all duration-200 hover:from-purple-600 hover:to-purple-700"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="h-4 w-4" />
                 Create Template
               </button>
               <button
-                onClick={() => router.push('/admin/templates')}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-700 rounded-lg text-gray-300 hover:bg-slate-600 hover:text-white transition-all duration-200"
+                onClick={() => router.push("/admin/templates")}
+                className="flex items-center gap-2 rounded-lg bg-slate-700 px-4 py-2 text-gray-300 transition-all duration-200 hover:bg-slate-600 hover:text-white"
               >
-                <FileText className="w-4 h-4" />
-                <ArrowRight className="w-4 h-4" />
+                <FileText className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" />
                 View All
               </button>
             </div>

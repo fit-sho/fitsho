@@ -23,7 +23,9 @@ export const Navbar: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
   const pathname = usePathname();
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -55,13 +57,13 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     let ticking = false;
-    
+
     const controlNavbar = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
           const scrollDifference = Math.abs(currentScrollY - lastScrollY);
-          
+
           if (scrollDifference > 5) {
             if (currentScrollY < lastScrollY || currentScrollY < 10) {
               if (scrollTimeout) {
@@ -69,31 +71,35 @@ export const Navbar: React.FC = () => {
                 setScrollTimeout(null);
               }
               setIsVisible(true);
-            } else if (currentScrollY > lastScrollY && currentScrollY > 100 && !scrollTimeout) {
+            } else if (
+              currentScrollY > lastScrollY &&
+              currentScrollY > 100 &&
+              !scrollTimeout
+            ) {
               const timeout = setTimeout(() => {
                 setIsVisible(false);
-                setIsUserMenuOpen(false); 
-                setIsMenuOpen(false); 
+                setIsUserMenuOpen(false);
+                setIsMenuOpen(false);
                 setScrollTimeout(null);
               }, 500);
-              
+
               setScrollTimeout(timeout);
             }
-            
+
             setLastScrollY(currentScrollY);
           }
-          
+
           ticking = false;
         });
-        
+
         ticking = true;
       }
     };
 
-    window.addEventListener('scroll', controlNavbar, { passive: true });
-    
+    window.addEventListener("scroll", controlNavbar, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', controlNavbar);
+      window.removeEventListener("scroll", controlNavbar);
       if (scrollTimeout) {
         clearTimeout(scrollTimeout);
       }
@@ -140,9 +146,11 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className={`sticky top-0 z-20 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800/50 transition-transform duration-300 ease-in-out ${
-      isVisible ? 'translate-y-0' : '-translate-y-full'
-    }`}>
+    <header
+      className={`sticky top-0 z-20 border-b border-slate-800/50 bg-slate-900/95 backdrop-blur-sm transition-transform duration-300 ease-in-out ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       {pathname === "/" && (
         <div className="flex items-center justify-center gap-5 bg-black py-3 text-sm text-white">
           <p className="hidden text-neutral-100 md:block">
@@ -157,7 +165,7 @@ export const Navbar: React.FC = () => {
         </div>
       )}
 
-      <div className="py-5 bg-slate-900/95">
+      <div className="bg-slate-900/95 py-5">
         <div className="container">
           <div className="flex items-center justify-between">
             <a href="/#" className="hover:scale-125">

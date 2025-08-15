@@ -17,7 +17,9 @@ export default function WorkoutPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
   const [availableExercises, setAvailableExercises] = useState<Exercise[]>([]);
-  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>([]);
+  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>(
+    []
+  );
   const [workoutNotes, setWorkoutNotes] = useState("");
   const [showAddMuscleModal, setShowAddMuscleModal] = useState(false);
   const router = useRouter();
@@ -68,9 +70,9 @@ export default function WorkoutPage() {
   }, [selectedMuscles]);
 
   const handleMuscleToggle = (muscle: string) => {
-    setSelectedMuscles(prev => 
-      prev.includes(muscle) 
-        ? prev.filter(m => m !== muscle)
+    setSelectedMuscles((prev) =>
+      prev.includes(muscle)
+        ? prev.filter((m) => m !== muscle)
         : [...prev, muscle]
     );
   };
@@ -90,17 +92,19 @@ export default function WorkoutPage() {
       targetReps: exercise.recommendedReps || "8-12",
     };
 
-    setWorkoutExercises(prev => [...prev, newWorkoutExercise]);
+    setWorkoutExercises((prev) => [...prev, newWorkoutExercise]);
   };
 
   const updateWorkoutExercise = (updatedExercise: WorkoutExercise) => {
-    setWorkoutExercises(prev => 
-      prev.map(we => we.id === updatedExercise.id ? updatedExercise : we)
+    setWorkoutExercises((prev) =>
+      prev.map((we) => (we.id === updatedExercise.id ? updatedExercise : we))
     );
   };
 
   const removeExerciseFromWorkout = (exerciseId: string) => {
-    setWorkoutExercises(prev => prev.filter(we => we.exerciseId !== exerciseId));
+    setWorkoutExercises((prev) =>
+      prev.filter((we) => we.exerciseId !== exerciseId)
+    );
   };
 
   const saveWorkout = async () => {
@@ -108,11 +112,17 @@ export default function WorkoutPage() {
 
     try {
       const workoutData = {
-        exercises: workoutExercises.map(we => ({
+        exercises: workoutExercises.map((we) => ({
           exerciseId: we.exerciseId,
-          sets: we.sets.filter(set => set.completed).length,
-          reps: we.sets.filter(set => set.completed).map(set => set.reps).join(","),
-          weight: we.sets.filter(set => set.completed).map(set => set.weight).join(","),
+          sets: we.sets.filter((set) => set.completed).length,
+          reps: we.sets
+            .filter((set) => set.completed)
+            .map((set) => set.reps)
+            .join(","),
+          weight: we.sets
+            .filter((set) => set.completed)
+            .map((set) => set.weight)
+            .join(","),
           notes: we.notes,
           order: workoutExercises.indexOf(we),
         })),
@@ -137,8 +147,8 @@ export default function WorkoutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-400"></div>
+      <div className="flex min-h-screen items-center justify-center bg-slate-900">
+        <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-cyan-400"></div>
       </div>
     );
   }
@@ -147,14 +157,14 @@ export default function WorkoutPage() {
     <div className="min-h-screen bg-slate-900 text-white">
       <AnimatedBackground />
 
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="container relative z-10 mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="mb-8 text-center"
         >
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">
+          <h1 className="mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-4xl font-bold text-transparent">
             Workout Tracker
           </h1>
           <p className="text-gray-400">Build your perfect workout session</p>

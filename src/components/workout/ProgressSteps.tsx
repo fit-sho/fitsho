@@ -6,14 +6,14 @@ interface ProgressStepsProps {
 
 export const ProgressSteps = ({ currentStep }: ProgressStepsProps) => {
   return (
-    <div className="flex justify-center mb-8">
+    <div className="mb-8 flex justify-center">
       <div className="flex items-center space-x-4">
         {[1, 2, 3].map((step) => (
           <div key={step} className="flex items-center">
             <div
-              className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
+              className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${
                 currentStep >= step
-                  ? "bg-cyan-500 border-cyan-500 text-white"
+                  ? "border-cyan-500 bg-cyan-500 text-white"
                   : "border-gray-600 text-gray-400"
               }`}
             >
@@ -21,7 +21,7 @@ export const ProgressSteps = ({ currentStep }: ProgressStepsProps) => {
             </div>
             {step < 3 && (
               <div
-                className={`w-16 h-1 mx-2 ${
+                className={`mx-2 h-1 w-16 ${
                   currentStep > step ? "bg-cyan-500" : "bg-gray-600"
                 }`}
               />

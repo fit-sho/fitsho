@@ -14,7 +14,9 @@ export default function WorkoutTrackingPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
-  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>([]);
+  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>(
+    []
+  );
   const [workoutNotes, setWorkoutNotes] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -41,20 +43,20 @@ export default function WorkoutTrackingPage() {
 
   useEffect(() => {
     // Get selected exercises and muscles from URL parameters
-    const exercisesParam = searchParams.get('exercises');
-    const musclesParam = searchParams.get('muscles');
-    
+    const exercisesParam = searchParams.get("exercises");
+    const musclesParam = searchParams.get("muscles");
+
     if (!exercisesParam || !musclesParam) {
       // If missing parameters, redirect to muscle selection
-      router.push('/workout/muscles');
+      router.push("/workout/muscles");
       return;
     }
 
-    const exerciseIds = exercisesParam.split(',').filter(Boolean);
-    const muscles = musclesParam.split(',').filter(Boolean);
-    
+    const exerciseIds = exercisesParam.split(",").filter(Boolean);
+    const muscles = musclesParam.split(",").filter(Boolean);
+
     setSelectedMuscles(muscles);
-    
+
     // Fetch exercise details and create workout exercises
     if (exerciseIds.length > 0) {
       fetchExerciseDetails(exerciseIds);
@@ -66,18 +68,22 @@ export default function WorkoutTrackingPage() {
       const response = await fetch("/api/exercises");
       if (response.ok) {
         const allExercises: Exercise[] = await response.json();
-        
+
         // Create workout exercises from selected exercise IDs
-        const selectedExercises = allExercises.filter(ex => exerciseIds.includes(ex.id));
-        const workoutExs: WorkoutExercise[] = selectedExercises.map(exercise => ({
-          id: Date.now().toString() + Math.random(),
-          exerciseId: exercise.id,
-          exercise: exercise,
-          sets: [],
-          notes: "",
-          completed: false,
-        }));
-        
+        const selectedExercises = allExercises.filter((ex) =>
+          exerciseIds.includes(ex.id)
+        );
+        const workoutExs: WorkoutExercise[] = selectedExercises.map(
+          (exercise) => ({
+            id: Date.now().toString() + Math.random(),
+            exerciseId: exercise.id,
+            exercise: exercise,
+            sets: [],
+            notes: "",
+            completed: false,
+          })
+        );
+
         setWorkoutExercises(workoutExs);
       }
     } catch (error) {
@@ -86,9 +92,11 @@ export default function WorkoutTrackingPage() {
   };
 
   const handleUpdateWorkoutExercise = (updatedExercise: WorkoutExercise) => {
-    setWorkoutExercises(workoutExercises.map(we => 
-      we.id === updatedExercise.id ? updatedExercise : we
-    ));
+    setWorkoutExercises(
+      workoutExercises.map((we) =>
+        we.id === updatedExercise.id ? updatedExercise : we
+      )
+    );
   };
 
   const handleFinishWorkout = async () => {
@@ -104,9 +112,9 @@ export default function WorkoutTrackingPage() {
 
       // For now, just log the workout data
       console.log("Workout completed:", workoutData);
-      
+
       // Redirect to a success page or dashboard
-      router.push('/dashboard?workout=completed');
+      router.push("/dashboard?workout=completed");
     } catch (error) {
       console.error("Error saving workout:", error);
     }
@@ -114,7 +122,7 @@ export default function WorkoutTrackingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <AnimatedBackground />
         <div className="relative z-10 text-white">Loading...</div>
       </div>
@@ -126,27 +134,31 @@ export default function WorkoutTrackingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AnimatedBackground />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
+
+      <div className="container relative z-10 mx-auto px-4 py-8">
+        <div className="mb-8 flex items-center gap-4">
           <button
             onClick={() => {
-              const exerciseIds = workoutExercises.map(we => we.exerciseId).join(',');
-              const muscleParams = selectedMuscles.join(',');
-              router.push(`/workout/exercises?exercises=${encodeURIComponent(exerciseIds)}&muscles=${encodeURIComponent(muscleParams)}`);
+              const exerciseIds = workoutExercises
+                .map((we) => we.exerciseId)
+                .join(",");
+              const muscleParams = selectedMuscles.join(",");
+              router.push(
+                `/workout/exercises?exercises=${encodeURIComponent(exerciseIds)}&muscles=${encodeURIComponent(muscleParams)}`
+              );
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-gray-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200"
+            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-gray-300 backdrop-blur-sm transition-all duration-200 hover:bg-slate-700/50 hover:text-white"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="h-4 w-4" />
             Back to Exercises
           </button>
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent">
               Track Your Workout
             </h1>
-            <p className="text-gray-400 mt-1">
+            <p className="mt-1 text-gray-400">
               Log your sets, reps, and weights for each exercise
             </p>
           </div>

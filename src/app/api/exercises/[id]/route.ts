@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { getCurrentUser } from '@/lib/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { getCurrentUser } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
@@ -10,19 +10,19 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const token = request.cookies.get('auth-token')?.value;
-    
+    const token = request.cookies.get("auth-token")?.value;
+
     if (!token) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: "Authentication required" },
         { status: 401 }
       );
     }
 
     const user = await getCurrentUser(token);
-    if (!user || user.role !== 'ADMIN') {
+    if (!user || user.role !== "ADMIN") {
       return NextResponse.json(
-        { error: 'Admin access required' },
+        { error: "Admin access required" },
         { status: 403 }
       );
     }
@@ -30,9 +30,13 @@ export async function PUT(
     const exerciseData = await request.json();
     const { id } = params;
 
-    if (!exerciseData.name || !exerciseData.description || !exerciseData.muscleGroups) {
+    if (
+      !exerciseData.name ||
+      !exerciseData.description ||
+      !exerciseData.muscleGroups
+    ) {
       return NextResponse.json(
-        { error: 'Name, description, and muscle groups are required' },
+        { error: "Name, description, and muscle groups are required" },
         { status: 400 }
       );
     }
@@ -49,14 +53,14 @@ export async function PUT(
         recommendedReps: exerciseData.recommendedReps || "8-12",
         difficulty: exerciseData.difficulty || "Intermediate",
         equipment: exerciseData.equipment || null,
-      }
+      },
     });
 
     return NextResponse.json(exercise);
   } catch (error) {
-    console.error('Error updating exercise:', error);
+    console.error("Error updating exercise:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -69,20 +73,20 @@ export async function DELETE(
 ) {
   try {
     // Get auth token from cookie
-    const token = request.cookies.get('auth-token')?.value;
-    
+    const token = request.cookies.get("auth-token")?.value;
+
     if (!token) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: "Authentication required" },
         { status: 401 }
       );
     }
 
     // Verify user is admin
     const user = await getCurrentUser(token);
-    if (!user || user.role !== 'ADMIN') {
+    if (!user || user.role !== "ADMIN") {
       return NextResponse.json(
-        { error: 'Admin access required' },
+        { error: "Admin access required" },
         { status: 403 }
       );
     }
@@ -90,14 +94,14 @@ export async function DELETE(
     const { id } = params;
 
     await prisma.exercise.delete({
-      where: { id }
+      where: { id },
     });
 
-    return NextResponse.json({ message: 'Exercise deleted successfully' });
+    return NextResponse.json({ message: "Exercise deleted successfully" });
   } catch (error) {
-    console.error('Error deleting exercise:', error);
+    console.error("Error deleting exercise:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

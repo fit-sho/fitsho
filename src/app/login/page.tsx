@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient, SignInData } from "@/lib/client-auth";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import { Settings, Dumbbell, BarChart3, LogIn, AlertCircle } from "lucide-react";
+import {
+  Settings,
+  Dumbbell,
+  BarChart3,
+  LogIn,
+  AlertCircle,
+} from "lucide-react";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState<SignInData>({
@@ -81,7 +87,10 @@ export default function LoginPage() {
         setShowAdminChoice(true);
         setLoading(false);
         return;
-      } else if (result.user.role === "CLIENT" || result.user.role === "TRAINER") {
+      } else if (
+        result.user.role === "CLIENT" ||
+        result.user.role === "TRAINER"
+      ) {
         setClientUser(result.user);
         setShowClientChoice(true);
         setLoading(false);
@@ -117,13 +126,13 @@ export default function LoginPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="w-full max-w-lg">
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
+          <div className="rounded-3xl border border-white/20 bg-white/80 p-8 shadow-2xl backdrop-blur-lg">
             {/* Header */}
-            <div className="text-center mb-8">
+            <div className="mb-8 text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-blue-600">
                 <Dumbbell className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              <h2 className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-3xl font-bold text-transparent">
                 Welcome Back!
               </h2>
               <p className="mt-2 text-gray-600">
@@ -136,16 +145,16 @@ export default function LoginPage() {
               {/* Workout */}
               <button
                 onClick={() => handleAdminChoice("/workout")}
-                className="w-full p-6 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 hover:from-emerald-500/20 hover:to-blue-500/20 border border-emerald-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+                className="group w-full rounded-2xl border border-emerald-200/50 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 p-6 transition-all duration-300 hover:scale-[1.02] hover:from-emerald-500/20 hover:to-blue-500/20 hover:shadow-lg"
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-blue-500">
                       <Dumbbell className="h-6 w-6 text-white" />
                     </div>
                   </div>
                   <div className="text-left">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-emerald-600">
                       Start Workout
                     </h3>
                     <p className="text-sm text-gray-600">
@@ -158,16 +167,16 @@ export default function LoginPage() {
               {/* Personal Dashboard */}
               <button
                 onClick={() => handleAdminChoice("/dashboard")}
-                className="w-full p-6 bg-gradient-to-r from-orange-500/10 to-pink-500/10 hover:from-orange-500/20 hover:to-pink-500/20 border border-orange-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+                className="group w-full rounded-2xl border border-orange-200/50 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-6 transition-all duration-300 hover:scale-[1.02] hover:from-orange-500/20 hover:to-pink-500/20 hover:shadow-lg"
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-pink-500">
                       <BarChart3 className="h-6 w-6 text-white" />
                     </div>
                   </div>
                   <div className="text-left">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-orange-600">
                       Dashboard
                     </h3>
                     <p className="text-sm text-gray-600">
@@ -188,13 +197,13 @@ export default function LoginPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="w-full max-w-lg">
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
+          <div className="rounded-3xl border border-white/20 bg-white/80 p-8 shadow-2xl backdrop-blur-lg">
             {/* Header */}
-            <div className="text-center mb-8">
+            <div className="mb-8 text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-purple-600">
                 <Settings className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              <h2 className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-3xl font-bold text-transparent">
                 Welcome Back, Admin!
               </h2>
               <p className="mt-2 text-gray-600">
@@ -207,16 +216,16 @@ export default function LoginPage() {
               {/* Admin Dashboard */}
               <button
                 onClick={() => handleAdminChoice("/admin")}
-                className="w-full p-6 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 hover:from-purple-500/20 hover:to-cyan-500/20 border border-purple-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+                className="group w-full rounded-2xl border border-purple-200/50 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 p-6 transition-all duration-300 hover:scale-[1.02] hover:from-purple-500/20 hover:to-cyan-500/20 hover:shadow-lg"
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-purple-500 to-cyan-500">
                       <Settings className="h-6 w-6 text-white" />
                     </div>
                   </div>
                   <div className="text-left">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-purple-600">
                       Admin Dashboard
                     </h3>
                     <p className="text-sm text-gray-600">
@@ -229,16 +238,16 @@ export default function LoginPage() {
               {/* Workout */}
               <button
                 onClick={() => handleAdminChoice("/workout")}
-                className="w-full p-6 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 hover:from-emerald-500/20 hover:to-blue-500/20 border border-emerald-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+                className="group w-full rounded-2xl border border-emerald-200/50 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 p-6 transition-all duration-300 hover:scale-[1.02] hover:from-emerald-500/20 hover:to-blue-500/20 hover:shadow-lg"
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-blue-500">
                       <Dumbbell className="h-6 w-6 text-white" />
                     </div>
                   </div>
                   <div className="text-left">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-emerald-600">
                       Start Workout
                     </h3>
                     <p className="text-sm text-gray-600">
@@ -251,16 +260,16 @@ export default function LoginPage() {
               {/* Personal Dashboard */}
               <button
                 onClick={() => handleAdminChoice("/dashboard")}
-                className="w-full p-6 bg-gradient-to-r from-orange-500/10 to-pink-500/10 hover:from-orange-500/20 hover:to-pink-500/20 border border-orange-200/50 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group"
+                className="group w-full rounded-2xl border border-orange-200/50 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-6 transition-all duration-300 hover:scale-[1.02] hover:from-orange-500/20 hover:to-pink-500/20 hover:shadow-lg"
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-pink-500">
                       <BarChart3 className="h-6 w-6 text-white" />
                     </div>
                   </div>
                   <div className="text-left">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-orange-600">
                       Personal Dashboard
                     </h3>
                     <p className="text-sm text-gray-600">

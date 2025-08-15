@@ -16,7 +16,9 @@ export default function WorkoutExercisesPage() {
   const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
   const [primaryMuscle, setPrimaryMuscle] = useState<string>("");
   const [availableExercises, setAvailableExercises] = useState<Exercise[]>([]);
-  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>([]);
+  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>(
+    []
+  );
   const [showAddMuscleModal, setShowAddMuscleModal] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -43,19 +45,19 @@ export default function WorkoutExercisesPage() {
 
   useEffect(() => {
     // Get selected muscles and primary muscle from URL parameters
-    const musclesParam = searchParams.get('muscles');
-    const primaryParam = searchParams.get('primary');
-    
+    const musclesParam = searchParams.get("muscles");
+    const primaryParam = searchParams.get("primary");
+
     if (musclesParam) {
-      const muscles = musclesParam.split(',').filter(Boolean);
+      const muscles = musclesParam.split(",").filter(Boolean);
       setSelectedMuscles(muscles);
-      
+
       if (primaryParam) {
         setPrimaryMuscle(primaryParam);
       }
     } else {
       // If no muscles selected, redirect to muscle selection
-      router.push('/workout/muscles');
+      router.push("/workout/muscles");
     }
   }, [searchParams, router]);
 
@@ -77,16 +79,16 @@ export default function WorkoutExercisesPage() {
 
       if (response.ok) {
         const exercises = await response.json();
-        
+
         if (primaryMuscle) {
           const sortedExercises = exercises.sort((a: Exercise, b: Exercise) => {
             const aPrimary = a.muscleGroups.includes(primaryMuscle);
             const bPrimary = b.muscleGroups.includes(primaryMuscle);
-            
+
             // Primary muscle exercises first
             if (aPrimary && !bPrimary) return -1;
             if (!aPrimary && bPrimary) return 1;
-            
+
             // Within same priority, sort by name
             return a.name.localeCompare(b.name);
           });
@@ -113,15 +115,19 @@ export default function WorkoutExercisesPage() {
   };
 
   const handleRemoveExercise = (exerciseId: string) => {
-    setWorkoutExercises(workoutExercises.filter(we => we.exerciseId !== exerciseId));
+    setWorkoutExercises(
+      workoutExercises.filter((we) => we.exerciseId !== exerciseId)
+    );
   };
 
   const handleContinue = () => {
     if (workoutExercises.length > 0) {
       // Pass selected exercises as URL parameters
-      const exerciseIds = workoutExercises.map(we => we.exerciseId).join(',');
-      const muscleParams = selectedMuscles.join(',');
-      router.push(`/workout/tracking?exercises=${encodeURIComponent(exerciseIds)}&muscles=${encodeURIComponent(muscleParams)}`);
+      const exerciseIds = workoutExercises.map((we) => we.exerciseId).join(",");
+      const muscleParams = selectedMuscles.join(",");
+      router.push(
+        `/workout/tracking?exercises=${encodeURIComponent(exerciseIds)}&muscles=${encodeURIComponent(muscleParams)}`
+      );
     }
   };
 
@@ -130,15 +136,17 @@ export default function WorkoutExercisesPage() {
       const newMuscles = [...selectedMuscles, muscle];
       setSelectedMuscles(newMuscles);
       // Update URL with new muscles
-      const muscleParams = newMuscles.join(',');
-      router.replace(`/workout/exercises?muscles=${encodeURIComponent(muscleParams)}`);
+      const muscleParams = newMuscles.join(",");
+      router.replace(
+        `/workout/exercises?muscles=${encodeURIComponent(muscleParams)}`
+      );
     }
     setShowAddMuscleModal(false);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <AnimatedBackground />
         <div className="relative z-10 text-white">Loading...</div>
       </div>
@@ -150,38 +158,41 @@ export default function WorkoutExercisesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AnimatedBackground />
-      
-      <div className="relative z-10 min-h-screen flex flex-col">
+
+      <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header - Mobile Optimized */}
-        <div className="flex items-center justify-between p-4 border-b border-white/10">
+        <div className="flex items-center justify-between border-b border-white/10 p-4">
           <button
             onClick={() => {
               if (selectedMuscles.length > 1) {
-                const muscleParams = selectedMuscles.join(',');
-                router.push(`/workout/primary?muscles=${encodeURIComponent(muscleParams)}`);
+                const muscleParams = selectedMuscles.join(",");
+                router.push(
+                  `/workout/primary?muscles=${encodeURIComponent(muscleParams)}`
+                );
               } else {
-                router.push('/workout/muscles');
+                router.push("/workout/muscles");
               }
             }}
-            className="flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white/70 hover:text-white hover:bg-white/15 transition-all duration-200"
+            className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-white/70 backdrop-blur-sm transition-all duration-200 hover:bg-white/15 hover:text-white"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Back</span>
           </button>
-          
           <div className="text-center">
-            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
               Select Exercises
             </h1>
             {primaryMuscle && (
-              <p className="text-sm text-white/60 mt-1">
-                <span className="text-cyan-400 font-semibold">{primaryMuscle}</span> focused
+              <p className="mt-1 text-sm text-white/60">
+                <span className="font-semibold text-cyan-400">
+                  {primaryMuscle}
+                </span>{" "}
+                focused
               </p>
             )}
           </div>
-
           <div className="w-16"></div> {/* Spacer for center alignment */}
         </div>
 
@@ -196,14 +207,18 @@ export default function WorkoutExercisesPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-4 p-4 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 backdrop-blur-sm border border-cyan-400/20 rounded-2xl"
+              className="mb-4 rounded-2xl border border-cyan-400/20 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-4 backdrop-blur-sm"
             >
-              <p className="text-white/80 text-sm text-center">
-                💪 <span className="font-semibold text-cyan-400">{primaryMuscle}</span> exercises are shown first
+              <p className="text-center text-sm text-white/80">
+                💪{" "}
+                <span className="font-semibold text-cyan-400">
+                  {primaryMuscle}
+                </span>{" "}
+                exercises are shown first
               </p>
             </motion.div>
           )}
-          
+
           <ExerciseSelection
             selectedMuscles={selectedMuscles}
             primaryMuscle={primaryMuscle}

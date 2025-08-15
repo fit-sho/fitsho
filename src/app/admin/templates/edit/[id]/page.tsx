@@ -3,7 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { Exercise, WorkoutTemplate, CreateTemplateData } from "@/components/admin/types";
+import {
+  Exercise,
+  WorkoutTemplate,
+  CreateTemplateData,
+} from "@/components/admin/types";
 import { WorkoutTemplateForm } from "@/components/admin/WorkoutTemplateForm";
 import { AnimatedBackground } from "@/components/workout/AnimatedBackground";
 
@@ -24,16 +28,18 @@ export default function EditTemplatePage() {
     try {
       const [templatesResponse, exercisesResponse] = await Promise.all([
         fetch("/api/workout-templates"),
-        fetch("/api/exercises")
+        fetch("/api/exercises"),
       ]);
 
       if (templatesResponse.ok && exercisesResponse.ok) {
         const [templates, exercises] = await Promise.all([
           templatesResponse.json(),
-          exercisesResponse.json()
+          exercisesResponse.json(),
         ]);
-        
-        const foundTemplate = templates.find((t: WorkoutTemplate) => t.id === id);
+
+        const foundTemplate = templates.find(
+          (t: WorkoutTemplate) => t.id === id
+        );
         setTemplate(foundTemplate || null);
         setExercises(exercises);
       }
@@ -58,7 +64,7 @@ export default function EditTemplatePage() {
       });
 
       if (response.ok) {
-        router.push('/admin/templates');
+        router.push("/admin/templates");
       } else {
         console.error("Failed to update template");
       }
@@ -71,7 +77,7 @@ export default function EditTemplatePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <AnimatedBackground />
         <div className="relative z-10 text-white">Loading...</div>
       </div>
@@ -80,7 +86,7 @@ export default function EditTemplatePage() {
 
   if (!template) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <AnimatedBackground />
         <div className="relative z-10 text-white">Template not found</div>
       </div>
@@ -88,23 +94,23 @@ export default function EditTemplatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AnimatedBackground />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
+
+      <div className="container relative z-10 mx-auto px-4 py-8">
+        <div className="mb-8 flex items-center gap-4">
           <button
-            onClick={() => router.push('/admin/templates')}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-gray-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200"
+            onClick={() => router.push("/admin/templates")}
+            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-gray-300 backdrop-blur-sm transition-all duration-200 hover:bg-slate-700/50 hover:text-white"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="h-4 w-4" />
             Back to Templates
           </button>
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent">
               Edit Template
             </h1>
-            <p className="text-gray-400 mt-1">
+            <p className="mt-1 text-gray-400">
               Update template details and exercises
             </p>
           </div>
@@ -114,7 +120,7 @@ export default function EditTemplatePage() {
           template={template}
           exercises={exercises}
           onSave={handleUpdateTemplate}
-          onCancel={() => router.push('/admin/templates')}
+          onCancel={() => router.push("/admin/templates")}
           isLoading={isLoading}
         />
       </div>

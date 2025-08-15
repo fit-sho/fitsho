@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { getCurrentUser } from '@/lib/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { getCurrentUser } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
@@ -11,23 +11,23 @@ export async function GET(request: NextRequest) {
       include: {
         templateExercises: {
           include: {
-            exercise: true
+            exercise: true,
           },
           orderBy: {
-            orderIndex: 'asc'
-          }
-        }
+            orderIndex: "asc",
+          },
+        },
       },
       orderBy: {
-        name: 'asc'
-      }
+        name: "asc",
+      },
     });
 
     return NextResponse.json(templates);
   } catch (error) {
-    console.error('Error fetching workout templates:', error);
+    console.error("Error fetching workout templates:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -36,28 +36,32 @@ export async function GET(request: NextRequest) {
 // POST /api/workout-templates - Create new workout template (Admin only)
 export async function POST(request: NextRequest) {
   try {
-    const token = request.cookies.get('auth-token')?.value;
-    
+    const token = request.cookies.get("auth-token")?.value;
+
     if (!token) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: "Authentication required" },
         { status: 401 }
       );
     }
 
     const user = await getCurrentUser(token);
-    if (!user || user.role !== 'ADMIN') {
+    if (!user || user.role !== "ADMIN") {
       return NextResponse.json(
-        { error: 'Admin access required' },
+        { error: "Admin access required" },
         { status: 403 }
       );
     }
 
     const templateData = await request.json();
 
-    if (!templateData.name || !templateData.exercises || !Array.isArray(templateData.exercises)) {
+    if (
+      !templateData.name ||
+      !templateData.exercises ||
+      !Array.isArray(templateData.exercises)
+    ) {
       return NextResponse.json(
-        { error: 'Name and exercises array are required' },
+        { error: "Name and exercises array are required" },
         { status: 400 }
       );
     }
@@ -68,7 +72,7 @@ export async function POST(request: NextRequest) {
           name: templateData.name,
           description: templateData.description || null,
           trainerId: user.id,
-        }
+        },
       });
 
       if (templateData.exercises.length > 0) {
@@ -79,7 +83,7 @@ export async function POST(request: NextRequest) {
             sets: exercise.sets,
             reps: exercise.reps,
             orderIndex: exercise.orderIndex,
-          }))
+          })),
         });
       }
 
@@ -88,21 +92,21 @@ export async function POST(request: NextRequest) {
         include: {
           templateExercises: {
             include: {
-              exercise: true
+              exercise: true,
             },
             orderBy: {
-              orderIndex: 'asc'
-            }
-          }
-        }
+              orderIndex: "asc",
+            },
+          },
+        },
       });
     });
 
     return NextResponse.json(template, { status: 201 });
   } catch (error) {
-    console.error('Error creating workout template:', error);
+    console.error("Error creating workout template:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
