@@ -38,9 +38,15 @@ export default function WorkoutMusclesPage() {
 
   const handleContinue = () => {
     if (selectedMuscles.length > 0) {
-      // Pass selected muscles as URL parameters
-      const muscleParams = selectedMuscles.join(',');
-      router.push(`/workout/exercises?muscles=${encodeURIComponent(muscleParams)}`);
+      // If only one muscle selected, skip primary selection and go straight to exercises
+      if (selectedMuscles.length === 1) {
+        const muscleParams = selectedMuscles.join(',');
+        router.push(`/workout/exercises?muscles=${encodeURIComponent(muscleParams)}&primary=${encodeURIComponent(selectedMuscles[0])}`);
+      } else {
+        // Multiple muscles selected, go to primary selection
+        const muscleParams = selectedMuscles.join(',');
+        router.push(`/workout/primary?muscles=${encodeURIComponent(muscleParams)}`);
+      }
     }
   };
 
