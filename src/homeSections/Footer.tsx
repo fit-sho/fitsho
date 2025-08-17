@@ -4,7 +4,7 @@ import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 export const Footer = () => {
   return (
-    <footer className="bg-black py-10 text-center text-sm text-[#BCBCBC]">
+    <footer className="bg-black py-10 z-10 text-center text-sm text-[#BCBCBC]">
       <div className="container">
         <div className="relative inline-flex before:absolute before:bottom-0 before:top-2 before:w-full before:bg-[linear-gradient(to_right,#F87BFF,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE)] before:blur before:content-['']">
           <a href="#">

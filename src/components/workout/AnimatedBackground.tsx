@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export const AnimatedBackground = () => {
   return (
-    <div className="pointer-events-none fixed inset-0 overflow-hidden">
+    <div className="pointer-events-none overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
       <div className="bg-grid-pattern absolute inset-0 opacity-5" />
       {[...Array(6)].map((_, i) => (
