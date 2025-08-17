@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Profile {
+model Users {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
   firstName String   @map("first_name")
@@ -25,16 +25,35 @@ model Profile {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  workoutTemplates WorkoutTemplate[]
-  userWorkouts     UserWorkout[]
+  trainerTemplates WorkoutTemplates[] @relation("TrainerTemplates")
+  createdTemplates WorkoutTemplates[] @relation("CreatedTemplates")
+  userWorkouts     UserWorkouts[]
+  clientTrainer    ClientTrainer[] @relation("Client")
+  trainer          ClientTrainer[] @relation("Trainer")
+  progress         Progress[]
 
-  @@map("profiles")
+  @@map("users")
 }
 
-model Exercise {
+model ClientTrainer {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  trainerId String   @map("trainer_id") @db.ObjectId
+  clientId  String   @map("client_id") @db.ObjectId
+
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  // Relations
+  trainer Users @relation("Trainer", fields: [trainerId], references: [id], onDelete: Cascade)
+  client  Users @relation("Client", fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@map("client_trainers")
+}
+
+model Exercises {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
   name             String
   description      String
+  steps            String[]       // Array of step-by-step instructions
   muscleGroups     MuscleGroup[]
   videoUrl         String?
   imageUrl         String?
@@ -46,27 +65,32 @@ model Exercise {
   updatedAt        DateTime       @updatedAt
   
   // Relations
-  workoutExercises WorkoutExercise[]
-  templateExercises TemplateExercise[]
+  workoutExercises WorkoutExercises[]
+  templateExercises TemplateExercises[]
+  progress         Progress[]
+
+  @@map("exercises")
 }
 
-model WorkoutTemplate {
+model WorkoutTemplates {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  trainerId   String   @map("trainer_id") @db.ObjectId
+  trainerId   String?  @map("trainer_id") @db.ObjectId
+  createdById String   @map("created_by_id") @db.ObjectId
   description String?
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   // Relations
-  trainer           Profile            @relation(fields: [trainerId], references: [id], onDelete: Cascade)
-  templateExercises TemplateExercise[]
-  userWorkouts      UserWorkout[]
+  trainer           Users?           @relation("TrainerTemplates", fields: [trainerId], references: [id], onDelete: Cascade)
+  createdBy         Users            @relation("CreatedTemplates", fields: [createdById], references: [id], onDelete: Cascade)
+  templateExercises TemplateExercises[]
+  userWorkouts      UserWorkouts[]
 
   @@map("workout_templates")
 }
 
-model TemplateExercise {
+model TemplateExercises {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
   templateId String @map("template_id") @db.ObjectId
   exerciseId String @map("exercise_id") @db.ObjectId
@@ -75,13 +99,13 @@ model TemplateExercise {
   orderIndex Int    @map("order_index")
 
   // Relations
-  template WorkoutTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
-  exercise Exercise        @relation(fields: [exerciseId], references: [id])
+  template WorkoutTemplates @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  exercise Exercises        @relation(fields: [exerciseId], references: [id])
 
   @@map("template_exercises")
 }
 
-model UserWorkout {
+model UserWorkouts {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   userId     String    @map("user_id") @db.ObjectId
   templateId String?   @map("template_id") @db.ObjectId
@@ -91,11 +115,30 @@ model UserWorkout {
   updatedAt  DateTime  @updatedAt @map("updated_at")
 
   // Relations
-  user             Profile           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  template         WorkoutTemplate?  @relation(fields: [templateId], references: [id])
-  workoutExercises WorkoutExercise[]
+  user             Users           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template         WorkoutTemplates?  @relation(fields: [templateId], references: [id])
+  workoutExercises WorkoutExercises[]
+  progress         Progress[]
 
   @@map("user_workouts")
+}
+
+model Progress {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @map("user_id") @db.ObjectId
+  workoutId String   @map("workout_id") @db.ObjectId
+  exerciseId String   @map("exercise_id") @db.ObjectId
+  metrics   Json   @map("metrics")   // multiple metrics, e.g., { "weight": 100, "reps": 3, "time": 30 }
+  date      DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workout UserWorkouts @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise Exercises @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@map("progress")
 }
 
 enum Role {
@@ -116,7 +159,7 @@ enum MuscleGroup {
   CARDIO
 }
 
-model WorkoutExercise {
+model WorkoutExercises {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   workoutId  String   @map("workout_id") @db.ObjectId
   exerciseId String   @map("exercise_id") @db.ObjectId
@@ -129,8 +172,8 @@ model WorkoutExercise {
   updatedAt  DateTime @updatedAt @map("updated_at")
 
   // Relations
-  workout  UserWorkout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  exercise Exercise    @relation(fields: [exerciseId], references: [id])
+  workout  UserWorkouts @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise Exercises    @relation(fields: [exerciseId], references: [id])
 
   @@map("workout_exercises")
 }
