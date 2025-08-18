@@ -18,6 +18,7 @@ export default function WorkoutTrackingPage() {
     []
   );
   const [workoutNotes, setWorkoutNotes] = useState("");
+  const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('lbs');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -137,42 +138,54 @@ export default function WorkoutTrackingPage() {
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AnimatedBackground />
 
-      <div className="container relative z-10 mx-auto px-4 py-8">
-        <div className="mb-8 flex items-center gap-4">
-          <button
-            onClick={() => {
-              const exerciseIds = workoutExercises
-                .map((we) => we.exerciseId)
-                .join(",");
-              const muscleParams = selectedMuscles.join(",");
-              router.push(
-                `/workout/exercises?exercises=${encodeURIComponent(exerciseIds)}&muscles=${encodeURIComponent(muscleParams)}`
-              );
-            }}
-            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-gray-300 backdrop-blur-sm transition-all duration-200 hover:bg-slate-700/50 hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Exercises
-          </button>
-          <div>
-            <h1 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent">
-              Track Your Workout
-            </h1>
-            <p className="mt-1 text-gray-400">
-              Log your sets, reps, and weights for each exercise
-            </p>
+      <div className="relative z-10 flex min-h-screen flex-col">
+        {/* Header - Mobile Optimized */}
+        <div className="mx-auto w-full max-w-4xl">
+          <div className="flex items-center justify-between border-b border-white/10 p-4 lg:px-8">
+            <button
+              onClick={() => {
+                const exerciseIds = workoutExercises
+                  .map((we) => we.exerciseId)
+                  .join(",");
+                const muscleParams = selectedMuscles.join(",");
+                router.push(
+                  `/workout/exercises?exercises=${encodeURIComponent(exerciseIds)}&muscles=${encodeURIComponent(muscleParams)}`
+                );
+              }}
+              className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-white/70 backdrop-blur-sm transition-all duration-200 hover:bg-white/15 hover:text-white"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">Back</span>
+            </button>
+            <div className="text-center">
+              <h1 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
+                Track Workout
+              </h1>
+              <p className="mt-1 text-sm text-white/60">
+                Log your sets and reps
+              </p>
+            </div>
+            <div className="w-16"></div>
           </div>
         </div>
 
-        <ProgressSteps currentStep={3} />
+        {/* Progress Steps */}
+        <div className="mx-auto w-full max-w-4xl px-4 py-4 lg:px-8">
+          <ProgressSteps currentStep={3} />
+        </div>
 
-        <WorkoutTracking
-          workoutExercises={workoutExercises}
-          workoutNotes={workoutNotes}
-          onUpdateExercise={handleUpdateWorkoutExercise}
-          onUpdateNotes={setWorkoutNotes}
-          onFinishWorkout={handleFinishWorkout}
-        />
+        {/* Main Content */}
+        <div className="mx-auto flex-1 w-full max-w-4xl px-4 pb-4 lg:px-8">
+          <WorkoutTracking
+            workoutExercises={workoutExercises}
+            workoutNotes={workoutNotes}
+            weightUnit={weightUnit}
+            onUpdateExercise={handleUpdateWorkoutExercise}
+            onUpdateNotes={setWorkoutNotes}
+            onUpdateWeightUnit={setWeightUnit}
+            onFinishWorkout={handleFinishWorkout}
+          />
+        </div>
       </div>
     </div>
   );
