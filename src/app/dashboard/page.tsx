@@ -9,15 +9,12 @@ import {
   Calendar,
   Target,
   TrendingUp,
-  Users,
   Dumbbell,
-  Clock,
   Award,
   BarChart3,
   Plus,
   ArrowRight,
   Zap,
-  Heart,
   Timer,
 } from "lucide-react";
 

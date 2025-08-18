@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const exercises = await prisma.exercise.findMany({
+    const exercises = await prisma.exercises.findMany({
       where: {
         muscleGroups: {
           hasSome: muscleGroups,

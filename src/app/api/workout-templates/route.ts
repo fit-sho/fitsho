@@ -1,14 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, verifyToken } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
 // GET /api/workout-templates - Get all workout templates
 export async function GET(request: NextRequest) {
   try {
-    const templates = await prisma.workoutTemplate.findMany({
+    const templates = await prisma.workoutTemplates.findMany({
       include: {
+        trainer: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        createdBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
         templateExercises: {
           include: {
             exercise: true,
@@ -33,7 +47,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/workout-templates - Create new workout template (Admin only)
+// POST /api/workout-templates - Create new workout template
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("auth-token")?.value;
@@ -45,12 +59,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await getCurrentUser(token);
-    if (!user || user.role !== "ADMIN") {
+    const decoded = verifyToken(token);
+    if (!decoded) {
       return NextResponse.json(
-        { error: "Admin access required" },
-        { status: 403 }
+        { error: "Invalid token" },
+        { status: 401 }
       );
+    }
+
+    const user = await getCurrentUser(token);
+    if (!user) {
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    // Check template limit for CLIENT users
+    if (user.role === "CLIENT") {
+      const existingTemplateCount = await prisma.workoutTemplates.count({
+        where: {
+          createdById: user.id
+        }
+      });
+
+      if (existingTemplateCount >= 2) {
+        return NextResponse.json(
+          { error: "Template limit reached. You can only create 2 templates. Delete an existing template to create a new one." },
+          { status: 403 }
+        );
+      }
     }
 
     const templateData = await request.json();
@@ -67,16 +105,18 @@ export async function POST(request: NextRequest) {
     }
 
     const template = await prisma.$transaction(async (tx) => {
-      const newTemplate = await tx.workoutTemplate.create({
+      const newTemplate = await tx.workoutTemplates.create({
         data: {
           name: templateData.name,
           description: templateData.description || null,
-          trainerId: user.id,
+          createdById: user.id,
+          // Set trainerId only for TRAINER/ADMIN roles
+          trainerId: user.role === "TRAINER" || user.role === "ADMIN" ? user.id : undefined,
         },
       });
 
       if (templateData.exercises.length > 0) {
-        await tx.templateExercise.createMany({
+        await tx.templateExercises.createMany({
           data: templateData.exercises.map((exercise: any) => ({
             templateId: newTemplate.id,
             exerciseId: exercise.exerciseId,
@@ -87,7 +127,7 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      return await tx.workoutTemplate.findUnique({
+      return await tx.workoutTemplates.findUnique({
         where: { id: newTemplate.id },
         include: {
           templateExercises: {

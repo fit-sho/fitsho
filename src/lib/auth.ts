@@ -42,7 +42,7 @@ export async function signUp(
 ): Promise<{ user: User; token: string }> {
   const { email, password, firstName, lastName, role } = data;
 
-  const existingUser = await prisma.profile.findUnique({
+  const existingUser = await prisma.users.findUnique({
     where: { email },
   });
 
@@ -52,7 +52,7 @@ export async function signUp(
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  const user = await prisma.profile.create({
+  const user = await prisma.users.create({
     data: {
       email,
       password: hashedPassword,
@@ -85,7 +85,7 @@ export async function signIn(
 ): Promise<{ user: User; token: string }> {
   const { email, password } = data;
 
-  const user = await prisma.profile.findUnique({
+  const user = await prisma.users.findUnique({
     where: { email },
   });
 
@@ -138,7 +138,7 @@ export async function getCurrentUser(token: string): Promise<User | null> {
   try {
     const { userId } = verifyToken(token);
 
-    const user = await prisma.profile.findUnique({
+    const user = await prisma.users.findUnique({
       where: { id: userId },
     });
 
@@ -163,7 +163,7 @@ export async function getCurrentUser(token: string): Promise<User | null> {
 }
 
 export async function getProfile(userId: string): Promise<User | null> {
-  const user = await prisma.profile.findUnique({
+  const user = await prisma.users.findUnique({
     where: { id: userId },
   });
 

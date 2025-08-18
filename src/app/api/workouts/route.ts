@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const workout = await prisma.userWorkout.create({
+    const workout = await prisma.userWorkouts.create({
       data: {
         userId,
         notes: notes || "",
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const workouts = await prisma.userWorkout.findMany({
+    const workouts = await prisma.userWorkouts.findMany({
       where: {
         userId: decoded.userId,
       },

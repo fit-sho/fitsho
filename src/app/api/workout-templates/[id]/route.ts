@@ -1,8 +1,72 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, verifyToken } from "@/lib/auth";
 
 const prisma = new PrismaClient();
+
+// GET /api/workout-templates/[id] - Get single workout template
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const token = request.cookies.get("auth-token")?.value;
+    
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
+
+    const template = await prisma.workoutTemplates.findUnique({
+      where: {
+        id: params.id,
+      },
+      include: {
+        trainer: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        createdBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        templateExercises: {
+          include: {
+            exercise: true,
+          },
+          orderBy: {
+            orderIndex: 'asc',
+          },
+        },
+      },
+    });
+
+    if (!template) {
+      return NextResponse.json(
+        { error: 'Template not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(template);
+  } catch (error) {
+    console.error('Error fetching workout template:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
 
 // PUT /api/workout-templates/[id] - Update workout template (Admin only)
 export async function PUT(
@@ -42,7 +106,7 @@ export async function PUT(
     }
 
     const template = await prisma.$transaction(async (tx) => {
-      const updatedTemplate = await tx.workoutTemplate.update({
+      const updatedTemplate = await tx.workoutTemplates.update({
         where: { id },
         data: {
           name: templateData.name,
@@ -50,11 +114,11 @@ export async function PUT(
         },
       });
 
-      await tx.templateExercise.deleteMany({
+      await tx.templateExercises.deleteMany({
         where: { templateId: id },
       });
       if (templateData.exercises.length > 0) {
-        await tx.templateExercise.createMany({
+        await tx.templateExercises.createMany({
           data: templateData.exercises.map((exercise: any) => ({
             templateId: id,
             exerciseId: exercise.exerciseId,
@@ -65,7 +129,7 @@ export async function PUT(
         });
       }
 
-      return await tx.workoutTemplate.findUnique({
+      return await tx.workoutTemplates.findUnique({
         where: { id },
         include: {
           templateExercises: {
@@ -115,7 +179,7 @@ export async function DELETE(
 
     const { id } = params;
 
-    await prisma.workoutTemplate.delete({
+    await prisma.workoutTemplates.delete({
       where: { id },
     });
 

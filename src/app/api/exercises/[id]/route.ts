@@ -41,7 +41,7 @@ export async function PUT(
       );
     }
 
-    const exercise = await prisma.exercise.update({
+    const exercise = await prisma.exercises.update({
       where: { id },
       data: {
         name: exerciseData.name,
@@ -93,7 +93,7 @@ export async function DELETE(
 
     const { id } = params;
 
-    await prisma.exercise.delete({
+    await prisma.exercises.delete({
       where: { id },
     });
 

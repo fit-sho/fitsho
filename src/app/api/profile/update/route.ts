@@ -46,7 +46,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Invalid sex value" }, { status: 400 });
     }
 
-    const updatedProfile = await prisma.profile.update({
+    const updatedProfile = await prisma.users.update({
       where: { id: userId },
       data: {
         firstName: firstName.trim(),

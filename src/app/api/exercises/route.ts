@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 // GET /api/exercises - Get all exercises
 export async function GET(request: NextRequest) {
   try {
-    const exercises = await prisma.exercise.findMany({
+    const exercises = await prisma.exercises.findMany({
       orderBy: {
         name: "asc",
       },
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const exercise = await prisma.exercise.create({
+    const exercise = await prisma.exercises.create({
       data: {
         name: exerciseData.name,
         description: exerciseData.description,
