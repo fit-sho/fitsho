@@ -92,7 +92,8 @@ export default function WorkoutPrimaryPage() {
 
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header - Mobile Optimized */}
-        <div className="flex items-center justify-between border-b border-white/10 p-4">
+        <div className="mx-auto w-full max-w-4xl">
+          <div className="flex items-center justify-between border-b border-white/10 p-4 lg:px-8">
           <button
             onClick={() =>
               router.push(
@@ -112,16 +113,17 @@ export default function WorkoutPrimaryPage() {
               Which muscle hits first?
             </p>
           </div>
-          <div className="w-16"></div> {/* Spacer for center alignment */}
+            <div className="w-16"></div> {/* Spacer for center alignment */}
+          </div>
         </div>
 
         {/* Progress Steps */}
-        <div className="px-4 py-4">
+        <div className="mx-auto w-full max-w-4xl px-4 py-4 lg:px-8">
           <ProgressSteps currentStep={2} />
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 px-4 pb-4">
+        <div className="mx-auto flex-1 w-full max-w-4xl px-4 pb-4 lg:px-8">
           {/* Instruction Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -210,7 +212,8 @@ export default function WorkoutPrimaryPage() {
         </div>
 
         {/* Continue Button - Fixed at Bottom */}
-        <div className="border-t border-white/10 bg-slate-900/80 p-4 backdrop-blur-sm">
+        <div className="border-t border-white/10 bg-slate-900/80 backdrop-blur-sm">
+          <div className="mx-auto w-full max-w-4xl p-4 lg:px-8">
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -240,6 +243,7 @@ export default function WorkoutPrimaryPage() {
               first
             </motion.p>
           )}
+          </div>
         </div>
       </div>
     </div>
