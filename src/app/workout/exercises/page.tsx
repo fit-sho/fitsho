@@ -81,17 +81,16 @@ export default function WorkoutExercisesPage() {
         const exercises = await response.json();
 
         if (primaryMuscle) {
-          const sortedExercises = exercises.sort((a: Exercise, b: Exercise) => {
-            const aPrimary = a.muscleGroups.includes(primaryMuscle);
-            const bPrimary = b.muscleGroups.includes(primaryMuscle);
-
-            // Primary muscle exercises first
-            if (aPrimary && !bPrimary) return -1;
-            if (!aPrimary && bPrimary) return 1;
-
-            // Within same priority, sort by name
-            return a.name.localeCompare(b.name);
-          });
+          // Only show exercises that target the primary muscle
+          const primaryMuscleExercises = exercises.filter((exercise: Exercise) =>
+            exercise.muscleGroups.includes(primaryMuscle)
+          );
+          
+          // Sort by name for consistent ordering
+          const sortedExercises = primaryMuscleExercises.sort((a: Exercise, b: Exercise) =>
+            a.name.localeCompare(b.name)
+          );
+          
           setAvailableExercises(sortedExercises);
         } else {
           setAvailableExercises(exercises);
@@ -210,11 +209,11 @@ export default function WorkoutExercisesPage() {
               className="mb-4 rounded-2xl border border-cyan-400/20 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-4 backdrop-blur-sm"
             >
               <p className="text-center text-sm text-white/80">
-                💪{" "}
+                💪 Showing only{" "}
                 <span className="font-semibold text-cyan-400">
                   {primaryMuscle}
                 </span>{" "}
-                exercises are shown first
+                exercises
               </p>
             </motion.div>
           )}
